@@ -1,10 +1,40 @@
+# Dependencies and build output
 node_modules/
+jspm_packages/
+web_modules/
 dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+
+# Local package and tool caches
 .pnpm-store/
+.npm/
+.cache/
+.parcel-cache/
+.vite/
+.eslintcache
+.stylelintcache
 *.tsbuildinfo
-.DS_Store
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Test and runtime output
+coverage/
+*.lcov
+.nyc_output/
+logs/
+*.log
+*.pid
+*.pid.lock
+
+# Local configuration and editor files
 .env
 .env.*
 !.env.example
+.DS_Store
 .idea/
 .vscode/
+*.tgz
