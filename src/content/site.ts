@@ -77,28 +77,28 @@ export const experience = [
     role: text("Actuarial Intern, Reinsurance", "精算实习生，再保险"),
     location: "New York, NY",
     dates: text("June 2026 – July 2026", "2026 年 6 月 – 2026 年 7 月"),
-    logoSrc: "/logos/lockton-re.png",
+    logoSrc: "logos/lockton-re.png",
   },
   {
     company: "Chubb",
     role: text("Actuarial Intern, Quantitative Pricing", "精算实习生，定量定价"),
     location: "Jersey City, NJ",
     dates: text("May 2025 – December 2025", "2025 年 5 月 – 2025 年 12 月"),
-    logoSrc: "/logos/chubb.png",
+    logoSrc: "logos/chubb.png",
   },
   {
     company: "Scale AI",
     role: text("Technical Advisor Intern, Generative AI", "技术顾问实习生，生成式 AI"),
     location: "Remote",
     dates: text("February 2025 – May 2025", "2025 年 2 月 – 2025 年 5 月"),
-    logoSrc: "/logos/scale-ai.png",
+    logoSrc: "logos/scale-ai.png",
   },
   {
     company: "IDX Exchange",
     role: text("Data Scientist Intern", "数据科学实习生"),
     location: "Remote",
     dates: text("September 2024 – Present", "2024 年 9 月 – 至今"),
-    logoSrc: "/logos/idx-exchange.png",
+    logoSrc: "logos/idx-exchange.png",
   },
   {
     company: "ILLINOIS ATLAS",
@@ -106,7 +106,7 @@ export const experience = [
     location: "Urbana, IL",
     team: "Teaching and Learning with Technology",
     dates: text("August 2023 – December 2023", "2023 年 8 月 – 2023 年 12 月"),
-    logoSrc: "/logos/atlas.png",
+    logoSrc: "logos/atlas.png",
   },
 ];
 
@@ -120,7 +120,7 @@ export const research = [
       { name: "Angela Lyons", url: "https://csames.illinois.edu/directory/profile/anglyons" },
       { name: "Aiman Soliman", url: "https://aimansoliman.com/" },
     ] satisfies LinkedName[],
-    logoSrc: "/logos/ncsa.png",
+    logoSrc: "logos/ncsa.png",
     logoAlt: "National Center for Supercomputing Applications logo",
     topic: text(
       "A Machine Learning and Geospatial Approach to Targeting Humanitarian Assistance Among Refugees in Lebanon",
@@ -147,7 +147,7 @@ export const research = [
       { name: "Tim Cardinal" },
       { name: "RGA GFS Valuation EMEA Team" },
     ] satisfies LinkedName[],
-    logoSrc: "/logos/illinois-risk-lab.png",
+    logoSrc: "logos/illinois-risk-lab.png",
     logoAlt: "Illinois Risk Lab logo",
     topic: text(
       "Data-Driven Financial Cash Flow Proxy Models for Global Financial Services Products",
@@ -168,7 +168,7 @@ export const research = [
     institution: { name: "Illinois Mathematics Lab", url: "https://iml.math.illinois.edu/" },
     institutionUrl: "https://iml.math.illinois.edu/",
     advisors: [{ name: "Yuliy Baryshnikov", url: "https://ymb.web.illinois.edu/" }] satisfies LinkedName[],
-    logoSrc: "/logos/illinois-math-lab.png",
+    logoSrc: "logos/illinois-math-lab.png",
     logoAlt: "Illinois Mathematics Lab logo",
     topic: text("Finding the Math Department's Deep Structure", "发现数学系的深层结构"),
     summary: text(

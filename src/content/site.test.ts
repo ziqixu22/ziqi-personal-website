@@ -27,8 +27,8 @@ describe("portfolio content model", () => {
     expect(getStoredLanguage({ getItem: () => "zh" } as Pick<Storage, "getItem">)).toBe("zh");
   });
 
-  it("uses supplied logo assets and only documented research links", () => {
-    expect(experience.every((item) => item.logoSrc?.startsWith("/logos/"))).toBe(true);
+  it("uses deployment-safe supplied logo assets and only documented research links", () => {
+    expect(experience.every((item) => item.logoSrc.includes("logos/") && !item.logoSrc.startsWith("/"))).toBe(true);
     expect(research[0].institutionUrl).toBe("https://www.ncsa.illinois.edu/");
     expect(research[1].advisors[2].url).toBeUndefined();
   });

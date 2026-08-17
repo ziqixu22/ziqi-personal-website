@@ -7,7 +7,7 @@ export function HomePage({ language }: { language: Language }) {
     <>
       <section className="home-hero">
         <div className="home-portrait-column">
-          <img className="profile-photo" src="/profile-ziqi.png" alt={language === "en" ? "Ziqi Xu" : "Ziqi Xu 的照片"} />
+          <img className="profile-photo" src="profile-ziqi.png" alt={language === "en" ? "Ziqi Xu" : "Ziqi Xu 的照片"} />
           <div className="social-links" aria-label={language === "en" ? "Contact links" : "联系链接"}>
             <a href={`mailto:${site.email}`}><span aria-hidden="true">✉</span>Email</a>
             {linkedinAvailable ? <a href={site.linkedin} target="_blank" rel="noreferrer"><span aria-hidden="true">in</span>LinkedIn</a> : <span className="social-link-disabled" title="LinkedIn URL to be added"><span aria-hidden="true">in</span>LinkedIn</span>}
