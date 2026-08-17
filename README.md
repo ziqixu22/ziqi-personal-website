@@ -2,6 +2,10 @@
 
 A multi-page professional portfolio for Ziqi Xu, connecting actuarial science, statistics, data science, machine learning, and quantitative research.
 
+## Live website
+
+[Visit the website](https://ziqixu22.github.io/ziqi-personal-website/)
+
 ## Run locally
 
 ```bash
