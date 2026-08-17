@@ -7,25 +7,10 @@ export type { Language, LocalizedText };
 
 export type PageSlug = "home" | "research" | "projects";
 export type LinkedName = { name: string; url?: string };
-
 const text = (en: string, zh: string): LocalizedText => ({ en, zh });
 
 export const site = {
   name: "Ziqi Xu",
-  headline: {
-    en: [
-      { text: "Statistics", url: "https://stat.illinois.edu/" },
-      { text: " & " },
-      { text: "Actuarial Science", url: "https://asrm.illinois.edu/" },
-      { text: " Double Major @ UIUC" },
-    ],
-    zh: [
-      { text: "统计学", url: "https://stat.illinois.edu/" },
-      { text: "和" },
-      { text: "精算学", url: "https://asrm.illinois.edu/" },
-      { text: "双专业 @ UIUC" },
-    ],
-  },
   positioning:
     "Using statistics, computation, and quantitative thinking to turn complex real-world questions into clear, practical insight.",
   email: "xuziqi2003@gmail.com",
@@ -41,29 +26,44 @@ export const pages: { slug: PageSlug; label: LocalizedText }[] = [
 
 export const home = {
   label: text("About Me", "关于我"),
-  intro: [
-    text(
-      "I am a University of Illinois Urbana-Champaign student studying Actuarial Science and Statistics, interested in applying statistical modeling, machine learning, quantitative methods, and computation to real-world problems across insurance, data science, and research.",
-      "我就读于伊利诺伊大学香槟分校，学习精算科学与统计学；我希望将统计建模、机器学习、定量方法与计算应用到保险、数据科学及研究中的真实问题。",
-    ),
-    text(
-      "My interests connect actuarial science, statistics, data science, quantitative modeling, and applied research.",
-      "我关注精算科学、统计学、数据科学、定量建模与应用研究的交汇。",
-    ),
-    text(
-      "I am interested in applying these tools to practical questions in insurance, data science, and research.",
-      "我希望将这些工具用于保险、数据科学与研究中的实际问题。",
-    ),
-  ],
+  about: {
+    en: {
+      opening: "Hi, I’m Ziqi Xu, and you can also call me Zoe. I am currently studying at the University of Illinois Urbana-Champaign (UIUC), double majoring in Statistics and Actuarial Science.",
+      research: "My undergraduate research focuses on using quantitative methods to solve meaningful real-world problems, spanning socioeconomics and humanitarian assistance, financial risk, and mathematical modeling. At UIUC, I have worked with Prof. Angela Lyons, Prof. Xiaochen Jing, Prof. Frank Quan, and Prof. Yuliy Baryshnikov.",
+      industry: "In industry, my work focuses on quantitative analysis, product pricing, loss ratio analysis, AI model training, and data visualization, with applications of statistical modeling and machine learning to real-world problems.",
+      focusLead: "I am currently exploring opportunities in both Industry and Research, mainly in:",
+      focuses: [
+        { title: "Quantitative Research / Quantitative Analyst", description: "systematic trading, alpha and factor research, time-series and risk modeling, portfolio analysis, and market microstructure." },
+        { title: "Modeling / Product Data Science", description: "product and growth analytics, machine learning, fraud and risk modeling, recommender systems, customer segmentation, A/B testing, and dynamic pricing." },
+        { title: "Artificial Intelligence & Machine Learning", description: "AI Agents, Large Language Models, NLP, Machine Learning Systems, and model training and evaluation." },
+      ],
+      statement: "I am not afraid of challenges. What I fear more is becoming someone who stops learning and exploring. So I hope to keep learning and keep sharing.",
+      closing: "Feel free to connect with me on LinkedIn. I’m always happy to exchange ideas.",
+    },
+    zh: {
+      opening: "你好，我是 徐子琦，也可以叫我 Zoe。我目前就读于 伊利诺伊大学厄巴纳-香槟分校（UIUC），本科双专业为 统计学与精算学。",
+      research: "我的本科研究关注如何运用定量方法解决有意义的现实问题，研究方向涵盖社会经济与人道主义援助、金融风险以及数学结构与建模。在 UIUC，我有幸与 Prof. Angela Lyons、Prof. Xiaochen Jing、Prof. Frank Quan 和 Prof. Yuliy Baryshnikov 开展研究与项目合作。",
+      industry: "在行业实践中，我主要关注定量分析、产品定价、损失率分析、AI 模型训练与数据可视化，并将统计建模与机器学习应用于真实业务问题。",
+      focusLead: "目前，我正在积极探索 Industry 与 Research 的机会，主要关注：",
+      focuses: [
+        { title: "Quantitative Research / Quantitative Analyst", description: "系统化交易策略、Alpha Research、因子研究、时间序列建模、风险建模、投资组合分析与市场微观结构。" },
+        { title: "Modeling / Product Data Science", description: "商业增长与产品分析、Machine Learning、欺诈检测与风险建模、推荐系统、用户与客户细分、实验设计 / A/B Testing 与动态定价。" },
+        { title: "Artificial Intelligence & Machine Learning", description: "AI Agents、Large Language Models、NLP、Machine Learning Systems、模型训练与评估，以及 AI 在真实业务与研究问题中的应用。" },
+      ],
+      statement: "我不怕困难和挑战，我比较害怕自己是一个暗淡的人。所以我希望自己持续学习，保持分享。",
+      closing: "欢迎随时通过LinkedIn与我联系，期待与大家交流。",
+    },
+  },
   teaching: [
     { institution: "University of Illinois Urbana-Champaign", role: text("ASRM 402 Grader", "ASRM 402 课程评分员"), dates: text("August 2026 – December 2026", "2026 年 8 月 – 2026 年 12 月") },
     { institution: "University of Illinois Urbana-Champaign", role: text("STAT 400 Course Assistant", "STAT 400 课程助教 / Course Assistant"), dates: text("August 2026 – December 2026", "2026 年 8 月 – 2026 年 12 月") },
   ],
   honors: [
-    { title: text("State Farm Actuarial Science Scholarship", "State Farm 精算科学奖学金"), year: "2026" },
+    { title: text("State Farm Actuarial Science Scholarship", "State Farm 精算科学奖学金"), year: "2026", url: "https://asrm.illinois.edu/state-farm-actuarial-science-scholarship" },
     {
       title: text("China Undergraduate Life Science Contest (2022, Entrepreneurship)", "全国大学生生命科学竞赛（2022，创新创业类）"),
       award: text("National Grand Prize (Highest Award)", "决赛特等奖（最高奖）"),
+      project: text("Reinventing Starch — Giving Packaging a New Form through Sustainable Plastic Replacement", "淀然一新，替塑成金 —— 淀粉赋予包装新形态"),
       year: "2022",
       url: "https://www.culsc.cn/#/Home",
       secondaryLink: { label: text("Official Award Announcement", "获奖通报"), url: "https://mp.weixin.qq.com/s/y4pRHOoEJl48sLOfsGX1hw" },
@@ -143,8 +143,8 @@ export const research = [
     institution: { name: "National Center for Supercomputing Applications", url: "https://www.ncsa.illinois.edu/" },
     institutionUrl: "https://www.ncsa.illinois.edu/",
     advisors: [
-      { name: "Angela Lyons", url: "https://csames.illinois.edu/directory/profile/anglyons" },
-      { name: "Aiman Soliman", url: "https://aimansoliman.com/" },
+      { name: "Prof. Angela Lyons", url: "https://csames.illinois.edu/directory/profile/anglyons" },
+      { name: "Dr. Aiman Soliman", url: "https://aimansoliman.com/" },
     ] satisfies LinkedName[],
     logoSrc: "logos/ncsa.png",
     logoAlt: "National Center for Supercomputing Applications logo",
@@ -160,6 +160,7 @@ export const research = [
       "Traditional proxy means testing offers limited insight and can constrain accuracy and fairness. The project evaluates operationalizable approaches that can support humanitarian organizations facing rising displacement, poverty, and limited funding.",
       "传统代理收入测试提供的信息有限，并可能限制预测准确性与公平性。该项目评估可落地的方法，为面临流离失所、贫困加剧与资金有限的人道主义组织提供支持。",
     ),
+    posterUrl: "research/ncsa-syrian-refugees-poster.pdf",
   },
   {
     role: text("Research Assistant – Actuarial Science", "研究助理 – 精算科学"),
@@ -168,8 +169,8 @@ export const research = [
     institutionUrl: "https://asrm.illinois.edu/illinois-risk-lab/illinois-risk-lab-home",
     collaborators: { name: "Reinsurance Group of America (RGA)", url: "https://www.rgare.com/" },
     advisors: [
-      { name: "Xiaochen Jing", url: "https://math.illinois.edu/directory/profile/xjing4" },
-      { name: "Frank Quan", url: "https://www.zhiyuquan.net/" },
+      { name: "Prof. Xiaochen Jing", url: "https://math.illinois.edu/directory/profile/xjing4" },
+      { name: "Prof. Frank Quan", url: "https://www.zhiyuquan.net/" },
       { name: "Tim Cardinal" },
       { name: "RGA GFS Valuation EMEA Team" },
     ] satisfies LinkedName[],
@@ -193,7 +194,7 @@ export const research = [
     dates: text("August 2023 – December 2023", "2023 年 8 月 – 2023 年 12 月"),
     institution: { name: "Illinois Mathematics Lab", url: "https://iml.math.illinois.edu/" },
     institutionUrl: "https://iml.math.illinois.edu/",
-    advisors: [{ name: "Yuliy Baryshnikov", url: "https://ymb.web.illinois.edu/" }] satisfies LinkedName[],
+    advisors: [{ name: "Prof. Yuliy Baryshnikov", url: "https://ymb.web.illinois.edu/" }] satisfies LinkedName[],
     logoSrc: "logos/illinois-math-lab.png",
     logoAlt: "Illinois Mathematics Lab logo",
     topic: text("Finding the Math Department's Deep Structure", "发现数学系的深层结构"),
@@ -205,7 +206,7 @@ export const research = [
       "Methods included clustering and aggregation, with theoretical ideas involving averaging on CAT(0) spaces and Sturm's algorithm.",
       "方法包括聚类与聚合，理论思路涉及 CAT(0) 空间上的平均与 Sturm 算法。",
     ),
-    projectUrl: "https://ymb.web.illinois.edu/teaching/past-teaching/igl-projects-s22/#dds",
+    posterUrl: "research/iml-deep-structure-poster.pdf",
   },
 ];
 
