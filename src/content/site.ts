@@ -5,70 +5,91 @@ import type { Language, LocalizedText } from "./types";
 export { getStoredLanguage, localize };
 export type { Language, LocalizedText };
 
-export type PageSlug = "home" | "experience" | "research-projects";
+export type PageSlug = "home" | "research" | "projects";
 export type LinkedName = { name: string; url?: string };
 
 const text = (en: string, zh: string): LocalizedText => ({ en, zh });
 
 export const site = {
   name: "Ziqi Xu",
-  role: text(
-    "Actuarial Science · Statistics · Data Science · Quantitative Research",
-    "精算科学 · 统计学 · 数据科学 · 定量研究",
-  ),
+  headline: {
+    en: [
+      { text: "Statistics", url: "https://stat.illinois.edu/" },
+      { text: " & " },
+      { text: "Actuarial Science", url: "https://asrm.illinois.edu/" },
+      { text: " Double Major @ UIUC" },
+    ],
+    zh: [
+      { text: "统计学", url: "https://stat.illinois.edu/" },
+      { text: "和" },
+      { text: "精算学", url: "https://asrm.illinois.edu/" },
+      { text: "双专业 @ UIUC" },
+    ],
+  },
   positioning:
     "Using statistics, computation, and quantitative thinking to turn complex real-world questions into clear, practical insight.",
-  email: "ziqi12@illinois.edu",
+  email: "xuziqi2003@gmail.com",
   github: "https://github.com/ziqixu22",
-  linkedin: "#",
-  resumeNote: text("Resume available upon request.", "简历可按需提供。"),
+  linkedin: "https://www.linkedin.com/in/ziqi12/",
 };
 
 export const pages: { slug: PageSlug; label: LocalizedText }[] = [
   { slug: "home", label: text("Home", "首页") },
-  { slug: "experience", label: text("Experience", "经历") },
-  { slug: "research-projects", label: text("Research & Projects", "研究与项目") },
+  { slug: "research", label: text("Research", "科研") },
+  { slug: "projects", label: text("Projects", "项目") },
 ];
 
 export const home = {
-  label: text("About", "关于我"),
+  label: text("About Me", "关于我"),
   intro: [
     text(
       "I am a University of Illinois Urbana-Champaign student studying Actuarial Science and Statistics, interested in applying statistical modeling, machine learning, quantitative methods, and computation to real-world problems across insurance, data science, and research.",
       "我就读于伊利诺伊大学香槟分校，学习精算科学与统计学；我希望将统计建模、机器学习、定量方法与计算应用到保险、数据科学及研究中的真实问题。",
     ),
     text(
-      "My work sits at the intersection of technical rigor and practical decision-making, especially where quantitative tools can make complex systems easier to understand.",
-      "我关注技术严谨性与实际决策的交汇，尤其重视定量工具如何帮助人们理解复杂系统。",
+      "My interests connect actuarial science, statistics, data science, quantitative modeling, and applied research.",
+      "我关注精算科学、统计学、数据科学、定量建模与应用研究的交汇。",
     ),
     text(
-      "I am particularly interested in insurance and risk, search and recommendation, and applied research.",
-      "我尤其关注保险与风险、搜索与推荐，以及应用研究。",
+      "I am interested in applying these tools to practical questions in insurance, data science, and research.",
+      "我希望将这些工具用于保险、数据科学与研究中的实际问题。",
     ),
   ],
-  focus: [
-    text("Statistical machine learning", "统计机器学习"),
-    text("Quantitative modeling", "定量建模"),
-    text("Search & recommendation", "搜索与推荐"),
-    text("Insurance & risk", "保险与风险"),
-    text("Applied research", "应用研究"),
+  teaching: [
+    { institution: "University of Illinois Urbana-Champaign", role: text("ASRM 402 Grader", "ASRM 402 课程评分员"), dates: text("August 2026 – December 2026", "2026 年 8 月 – 2026 年 12 月") },
+    { institution: "University of Illinois Urbana-Champaign", role: text("STAT 400 Course Assistant", "STAT 400 课程助教 / Course Assistant"), dates: text("August 2026 – December 2026", "2026 年 8 月 – 2026 年 12 月") },
   ],
-  education: {
-    school: "University of Illinois Urbana-Champaign",
-    degree: text("Actuarial Science + Statistics", "精算科学 + 统计学"),
-    graduation: text("Expected graduation: December 2026", "预计毕业：2026 年 12 月"),
-  },
-  service: [text("Teaching, grading, and tutoring details to be added.", "教学、评分与辅导经历待补充。")],
   honors: [
-    "State Farm Actuarial Science Scholarship",
-    "Dean's List",
-    "Illinois Statistics Datathon Honor Prize",
-    "SOA Exams P, FM, SRM, FAM",
+    { title: text("State Farm Actuarial Science Scholarship", "State Farm 精算科学奖学金"), year: "2026" },
+    {
+      title: text("China Undergraduate Life Science Contest (2022, Entrepreneurship)", "全国大学生生命科学竞赛（2022，创新创业类）"),
+      award: text("National Grand Prize (Highest Award)", "决赛特等奖（最高奖）"),
+      year: "2022",
+      url: "https://www.culsc.cn/#/Home",
+      secondaryLink: { label: text("Official Award Announcement", "获奖通报"), url: "https://mp.weixin.qq.com/s/y4pRHOoEJl48sLOfsGX1hw" },
+    },
+    {
+      title: text("The 8th China International College Students’ “Internet+” Innovation and Entrepreneurship Competition", "第八届中国国际“互联网+”大学生创新创业大赛"),
+      award: text("National Bronze Award", "全国铜奖"),
+      project: text("Super Starch — Leading the New Future of Plastics Replacement Industry", "超级淀粉——引领塑料替代产业的新未来"),
+      year: "2022",
+      url: "https://cy.ncss.cn/en/",
+      secondaryLink: { label: text("View Certificate", "查看证书"), url: "awards/internet-plus-national-bronze-certificate.pdf" },
+    },
   ],
-  beyond: text(
-    "Outside coursework and research, this space can hold a few genuine interests—travel, fitness, books, photography, or what you are learning next.",
-    "在课程与研究之外，这里可以保留少量真实兴趣，例如旅行、健身、阅读、摄影或正在学习的新事物。",
-  ),
+};
+
+export const soa = {
+  name: text("Society of Actuaries", "美国精算师协会 Society of Actuaries"),
+  subtitle: text("Actuarial Exams Passed", "已通过精算考试"),
+  url: "https://www.soa.org/",
+  logoSrc: "logos/soa.png",
+  exams: [
+    { name: "SOA Exam P", issued: text("Issued: March 2025", "通过时间：2025年3月") },
+    { name: "SOA Exam FM", issued: text("Issued: May 2025", "通过时间：2025年5月") },
+    { name: "SOA Exam SRM", issued: text("Issued: May 2026", "通过时间：2026年5月") },
+    { name: "SOA Exam FAM", issued: text("Issued: May 2026", "通过时间：2026年5月") },
+  ],
 };
 
 export const experience = [
@@ -78,6 +99,7 @@ export const experience = [
     location: "New York, NY",
     dates: text("June 2026 – July 2026", "2026 年 6 月 – 2026 年 7 月"),
     logoSrc: "logos/lockton-re.png",
+    order: 5,
   },
   {
     company: "Chubb",
@@ -85,6 +107,7 @@ export const experience = [
     location: "Jersey City, NJ",
     dates: text("May 2025 – December 2025", "2025 年 5 月 – 2025 年 12 月"),
     logoSrc: "logos/chubb.png",
+    order: 4,
   },
   {
     company: "Scale AI",
@@ -92,13 +115,15 @@ export const experience = [
     location: "Remote",
     dates: text("February 2025 – May 2025", "2025 年 2 月 – 2025 年 5 月"),
     logoSrc: "logos/scale-ai.png",
+    order: 3,
   },
   {
     company: "IDX Exchange",
     role: text("Data Scientist Intern", "数据科学实习生"),
     location: "Remote",
-    dates: text("September 2024 – Present", "2024 年 9 月 – 至今"),
+    dates: text("September 2024 – December 2024", "2024年9月 – 2024年12月"),
     logoSrc: "logos/idx-exchange.png",
+    order: 2,
   },
   {
     company: "ILLINOIS ATLAS",
@@ -107,6 +132,7 @@ export const experience = [
     team: "Teaching and Learning with Technology",
     dates: text("August 2023 – December 2023", "2023 年 8 月 – 2023 年 12 月"),
     logoSrc: "logos/atlas.png",
+    order: 1,
   },
 ];
 
