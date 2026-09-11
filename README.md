@@ -51,7 +51,7 @@ tsc -b
 vite build
 ```
 
-This catches type errors before a production artifact is generated. fileciteturn157file0L2-L2
+This catches type errors before a production artifact is generated.
 
 ## Architecture
 
@@ -97,7 +97,7 @@ The site is primarily a client-side portfolio and does not require server-side r
 
 ### Automated Deployment
 
-The repository includes a GitHub Actions workflow that runs whenever `main` is updated. The workflow checks out the repository, installs dependencies with a frozen lockfile, builds the site, uploads the `dist` artifact, and deploys it to GitHub Pages. fileciteturn156file0L2-L2
+The repository includes a GitHub Actions workflow that runs whenever `main` is updated. The workflow checks out the repository, installs dependencies with a frozen lockfile, builds the site, uploads the `dist` artifact, and deploys it to GitHub Pages.
 
 Deployment flow:
 
