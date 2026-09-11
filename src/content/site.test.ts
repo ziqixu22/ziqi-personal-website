@@ -1,12 +1,18 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
 import { createElement } from "react";
 
-import { experience, getStoredLanguage, home, pages, research, site, soa } from "./site";
+import { credentials, experience, getStoredLanguage, home, pages, projectCategories, projects, research, selectedExperience, site, soa } from "./site";
 import { languageStorageKey, normalizeLanguage } from "../i18n/language";
 import { HomePage } from "../pages/HomePage";
+import { ProjectDetailPage } from "../pages/ProjectDetailPage";
+import { ProjectsPage } from "../pages/ProjectsPage";
 import { SiteFooter } from "../components/SiteFooter";
+import { SiteHeader } from "../components/SiteHeader";
+import { parseRoute } from "../app/routes";
+
+afterEach(cleanup);
 
 describe("portfolio content model", () => {
   it("keeps Home, Research, and Projects in the top navigation", () => {
@@ -79,43 +85,138 @@ describe("portfolio content model", () => {
     expect("projectUrl" in research[2]).toBe(false);
   });
 
-  it("uses the approved bilingual About copy with compact focus statements", () => {
-    expect(home.about.en.opening).toBe("Hi, I’m Ziqi Xu, and you can also call me Zoe. I am currently studying at the University of Illinois Urbana-Champaign (UIUC), double majoring in Statistics and Actuarial Science.");
-    expect(home.about.en.research).toBe("My undergraduate research focuses on using quantitative methods to solve meaningful real-world problems, spanning socioeconomics and humanitarian assistance, financial risk, and mathematical modeling. At UIUC, I have worked with Prof. Angela Lyons, Prof. Xiaochen Jing, Prof. Frank Quan, and Prof. Yuliy Baryshnikov.");
-    expect(home.about.en.industry).toBe("In industry, my work focuses on quantitative analysis, product pricing, loss ratio analysis, AI model training, and data visualization, with applications of statistical modeling and machine learning to real-world problems.");
-    expect(home.about.en.focusLead).toBe("I am currently exploring opportunities in both Industry and Research, mainly in:");
-    expect(home.about.zh.opening).toContain("徐子琦");
-    expect(home.about.en.focuses).toHaveLength(3);
-    expect(home.about.zh.focuses).toHaveLength(3);
-    expect(home.about.en.focuses.map((focus) => focus.title)).toEqual([
-      "Quantitative Research / Quantitative Analyst",
-      "Modeling / Product Data Science",
-      "Artificial Intelligence & Machine Learning",
-    ]);
-    expect(home.about.en.focuses.map((focus) => focus.description)).toEqual([
-      "systematic trading, alpha and factor research, time-series and risk modeling, portfolio analysis, and market microstructure.",
-      "product and growth analytics, machine learning, fraud and risk modeling, recommender systems, customer segmentation, A/B testing, and dynamic pricing.",
-      "AI Agents, Large Language Models, NLP, Machine Learning Systems, and model training and evaluation.",
-    ]);
-    expect(home.about.en.statement).toBe("I am not afraid of challenges. What I fear more is becoming someone who stops learning and exploring. So I hope to keep learning and keep sharing.");
-    expect(home.about.en.closing).toBe("Feel free to connect with me on LinkedIn. I’m always happy to exchange ideas.");
-    expect(home.about.zh.closing).toBe("欢迎随时通过LinkedIn与我联系，期待与大家交流。");
+  it("keeps the concise bilingual About narrative without a duplicated closing quote", () => {
+    expect(home.about.en.intro).toContain("double major in Statistics and Actuarial Science");
+    expect(home.about.zh.interests).toHaveLength(3);
+    expect("closing" in home.about.zh).toBe(false);
+    expect("research" in home.about.en).toBe(false);
+    expect("industry" in home.about.en).toBe(false);
+    expect("contact" in home.about.en).toBe(false);
     expect(home.honors[0].url).toBe("https://asrm.illinois.edu/state-farm-actuarial-science-scholarship");
     expect(home.honors[1].project?.zh).toBe("淀然一新，替塑成金 —— 淀粉赋予包装新形态");
   });
 
-  it("presents exactly three unbolded career-interest bullets on Home", () => {
-    render(createElement(HomePage, { language: "zh" }));
-
-    const focusList = screen.getByText("目前，我正在积极探索 Industry 与 Research 的机会，主要关注：").parentElement?.querySelector("ul");
-    expect(focusList).not.toBeNull();
-    expect(focusList?.querySelectorAll("li")).toHaveLength(3);
-    expect(focusList?.querySelector("strong")).toBeNull();
-  });
-
   it("does not show a return-to-top link in the shared footer", () => {
-    render(createElement(SiteFooter, { language: "en" }));
+    render(createElement(SiteFooter, { language: "en", showQuote: true }));
 
     expect(screen.queryByRole("link", { name: /back to top|return to top/i })).toBeNull();
+    expect(screen.getByText(/losing my spark/i)).toBeTruthy();
+  });
+
+  it("shows only the three recruiter-priority experiences on Home", () => {
+    expect(selectedExperience.map((item) => item.company)).toEqual(["Chubb", "Scale AI", "NCSA"]);
+
+    render(createElement(HomePage, { language: "en" }));
+
+    expect(screen.getByText("Actuarial Intern, Quantitative Pricing")).toBeTruthy();
+    expect(screen.getByText("Technical Advisor Intern, Generative AI")).toBeTruthy();
+    expect(screen.getByText("Data Scientist Intern – ML SPIN")).toBeTruthy();
+    expect(screen.queryByText("Lockton Re")).toBeNull();
+    expect(screen.queryByText("IDX Exchange")).toBeNull();
+    expect(screen.queryByText("ILLINOIS ATLAS")).toBeNull();
+    expect(screen.queryByRole("heading", { name: "Industry Experience" })).toBeNull();
+    expect(screen.queryByRole("heading", { name: "Society of Actuaries ↗" })).toBeNull();
+    expect(screen.queryByText(/My undergraduate research focuses/i)).toBeNull();
+    expect(screen.queryByText(/Feel free to connect with me on LinkedIn/i)).toBeNull();
+  });
+
+  it("links Home directly to Research and Projects", () => {
+    render(createElement(HomePage, { language: "en" }));
+
+    expect(screen.getByRole("link", { name: /Explore Research/ }).getAttribute("href")).toBe("#research");
+    expect(screen.getByRole("link", { name: /View Projects/ }).getAttribute("href")).toBe("#projects");
+  });
+
+  it("keeps verified credentials compact and does not claim paper authorship", () => {
+    expect(credentials.awards).toHaveLength(3);
+    expect(credentials.exams.map((exam) => exam.name)).toEqual(["SOA Exam P", "SOA Exam FM", "SOA Exam SRM", "SOA Exam FAM"]);
+    expect(credentials.researchContribution.url).toBe("https://arxiv.org/abs/2501.14249");
+
+    render(createElement(HomePage, { language: "en" }));
+
+    expect(screen.getByText(/Technical Auditor/)).toBeTruthy();
+    expect(screen.getByRole("link", { name: /View paper/ }).getAttribute("href")).toBe("https://arxiv.org/abs/2501.14249");
+    expect(document.body.textContent).not.toMatch(/paper author|co-author/i);
+  });
+
+  it("organizes a reusable professional-project catalogue with an academic archive", () => {
+    expect(projectCategories.map((category) => category.slug)).toEqual([
+      "sar",
+      "fraud-data-science",
+      "quantitative-research-trading",
+      "product-data-science-experimentation",
+      "nlp-llm",
+      "ml-systems-data-engineering",
+    ]);
+    expect(projects).toHaveLength(22);
+    expect(projects.find((project) => project.slug === "pathtrees")).toBeUndefined();
+    expect(projects.find((project) => project.slug === "large-scale-recommendation-ranking")).toBeUndefined();
+    expect(projects.find((project) => project.slug === "search-ranking-hybrid-retrieval")).toBeUndefined();
+    expect(projects.find((project) => project.slug === "us-equity-cross-sectional-research")?.status).toBe("in-progress");
+    expect(projects.filter((project) => project.status === "planned")).toHaveLength(16);
+    expect(projects.find((project) => project.slug === "sar-system")?.status).toBe("live");
+    expect(projects.filter((project) => project.archived)).toHaveLength(4);
+    expect(projects.find((project) => project.slug === "financial-nlp-alternative-data-alpha")?.categories).toEqual(["quantitative-research-trading", "nlp-llm"]);
+
+    render(createElement(ProjectsPage, { language: "en" }));
+
+    expect(screen.getByRole("link", { name: /Fraud Data Science/ }).getAttribute("href")).toBe("#projects/category/fraud-data-science");
+    expect(screen.getByRole("link", { name: /US Equity Cross-Sectional Factor/ }).getAttribute("href")).toBe("#projects/project/us-equity-cross-sectional-research");
+    expect(screen.getByText("In Progress")).toBeTruthy();
+    expect(screen.getAllByText("Planned")).toHaveLength(19);
+    expect(screen.getByText("Live Portfolio")).toBeTruthy();
+    const sarLink = screen.getByRole("link", { name: /Open SAR Cosmos Lab/i });
+    expect(sarLink.getAttribute("href")).toBe("https://ricky-s-gong.github.io/search-rec-ads-portfolio/en/");
+    expect(sarLink.getAttribute("target")).toBe("_blank");
+    expect(sarLink.getAttribute("rel")).toContain("noopener");
+    expect(screen.queryByText("Capability")).toBeNull();
+    expect(screen.queryByText(/Predictive and structural modeling/i)).toBeNull();
+    expect(document.body.textContent).not.toContain("View GitHub");
+    expect(screen.getByText(/Academic Foundations/i)).toBeTruthy();
+  });
+
+  it("renders the new portfolio content in Chinese", () => {
+    render(createElement(ProjectsPage, { language: "zh" }));
+
+    expect(screen.getByText("进行中")).toBeTruthy();
+    expect(screen.getAllByText("计划中")).toHaveLength(19);
+    expect(screen.getByText("在线作品集")).toBeTruthy();
+    expect(screen.getAllByText("欺诈数据科学")).toHaveLength(2);
+  });
+
+  it("parses shareable Projects category and detail routes", () => {
+    expect(parseRoute("#projects/category/quantitative-research-trading")).toEqual({ kind: "page", page: "projects", category: "quantitative-research-trading" });
+    expect(parseRoute("#projects/project/zrx-usd-time-series-analysis")).toEqual({ kind: "project", slug: "zrx-usd-time-series-analysis" });
+    expect(parseRoute("#projects/project/unknown")).toEqual({ kind: "project", slug: "unknown" });
+  });
+
+  it("renders sourced project details and an unknown-project fallback", () => {
+    const { unmount } = render(
+      createElement(ProjectDetailPage, { language: "en", slug: "zrx-usd-time-series-analysis" }),
+    );
+
+    expect(screen.getByRole("heading", { name: /ZRX\/USD Time Series/i })).toBeTruthy();
+    expect(screen.getAllByText(/ARIMA\(0,1,1\)/).length).toBeGreaterThan(0);
+    expect(document.querySelector(".katex")).toBeTruthy();
+    expect(document.body.textContent).not.toContain("View GitHub");
+    unmount();
+
+    render(createElement(ProjectDetailPage, { language: "zh", slug: "missing-project" }));
+    expect(screen.getByRole("heading", { name: "未找到该项目" })).toBeTruthy();
+    expect(screen.getByRole("link", { name: /返回项目页/ })).toBeTruthy();
+  });
+
+  it("keeps planned project details explicitly result-free", () => {
+    render(createElement(ProjectDetailPage, { language: "en", slug: "real-time-fraud-risk-decisioning" }));
+
+    expect(screen.getByText(/Results are not yet available/)).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/Sharpe|AUC|drawdown/i);
+  });
+
+  it("marks the active navigation destination for assistive technology", () => {
+    render(createElement(SiteHeader, { language: "en", page: "research", onLanguageChange: () => undefined }));
+
+    expect(screen.getByRole("link", { name: "Research" }).getAttribute("aria-current")).toBe("page");
+    expect(screen.getByRole("link", { name: "Home" }).getAttribute("aria-current")).toBeNull();
   });
 });

@@ -1,11 +1,60 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { getStoredLanguage, languageStorageKey } from "../i18n/language";
-import { pages, type Language, type PageSlug } from "../content/site";
+import { type Language } from "../content/site";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 import { HomePage } from "../pages/HomePage";
 import { ResearchPage } from "../pages/ResearchPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
-const validPages=new Set<PageSlug>(pages.map(page=>page.slug));
-function readPage():PageSlug{const hash=window.location.hash.slice(1) as PageSlug;return validPages.has(hash)?hash:"home"}
-export function App(){const[page,setPage]=useState<PageSlug>(readPage);const[language,setLanguage]=useState<Language>(()=>getStoredLanguage(window.localStorage));useEffect(()=>{const update=()=>setPage(readPage());window.addEventListener("hashchange",update);return()=>window.removeEventListener("hashchange",update)},[]);useEffect(()=>{window.localStorage.setItem(languageStorageKey,language);document.documentElement.lang=language==="zh"?"zh-CN":"en"},[language]);return <div className="site-shell"><SiteHeader language={language} page={page} onLanguageChange={setLanguage}/><main>{page==="research"?<ResearchPage language={language}/>:page==="projects"?<ProjectsPage language={language}/>:<HomePage language={language}/>}</main><SiteFooter language={language}/></div>}
+import { parseRoute } from "./routes";
+
+const ProjectDetailPage = lazy(() =>
+  import("../pages/ProjectDetailPage").then((module) => ({
+    default: module.ProjectDetailPage,
+  })),
+);
+
+function readRoute() {
+  return parseRoute(window.location.hash);
+}
+
+export function App() {
+  const [route, setRoute] = useState(readRoute);
+  const [language, setLanguage] = useState<Language>(() => getStoredLanguage(window.localStorage));
+  const page = route.kind === "project" ? "projects" : route.page;
+
+  useEffect(() => {
+    const update = () => setRoute(readRoute());
+    window.addEventListener("hashchange", update);
+    return () => window.removeEventListener("hashchange", update);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(languageStorageKey, language);
+    document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+  }, [language]);
+
+  useEffect(() => {
+    if (route.kind === "project") window.scrollTo({ top: 0 });
+  }, [route]);
+
+  return (
+    <div className="site-shell">
+      <SiteHeader language={language} page={page} onLanguageChange={setLanguage} />
+      <main>
+        {route.kind === "project" ? (
+          <Suspense fallback={<p className="page-loading">Loading project…</p>}>
+            <ProjectDetailPage language={language} slug={route.slug} />
+          </Suspense>
+        ) : route.page === "research" ? (
+          <ResearchPage language={language} />
+        ) : route.page === "projects" ? (
+          <ProjectsPage language={language} category={route.category} />
+        ) : (
+          <HomePage language={language} />
+        )}
+      </main>
+      <SiteFooter language={language} showQuote={route.kind === "page" && route.page === "home"} />
+    </div>
+  );
+}

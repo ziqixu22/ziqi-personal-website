@@ -1,9 +1,9 @@
 import { getStoredLanguage } from "../i18n/language";
 import { localize } from "./types";
-import type { Language, LocalizedText } from "./types";
+import type { Language, LocalizedText, ProjectCategory, ProjectDetailSection, ProjectItem } from "./types";
 
 export { getStoredLanguage, localize };
-export type { Language, LocalizedText };
+export type { Language, LocalizedText, ProjectCategory, ProjectDetailSection, ProjectFormula, ProjectItem, ProjectLink, ProjectStatus, ProjectVisualKind } from "./types";
 
 export type PageSlug = "home" | "research" | "projects";
 export type LinkedName = { name: string; url?: string };
@@ -28,30 +28,22 @@ export const home = {
   label: text("About Me", "关于我"),
   about: {
     en: {
-      opening: "Hi, I’m Ziqi Xu, and you can also call me Zoe. I am currently studying at the University of Illinois Urbana-Champaign (UIUC), double majoring in Statistics and Actuarial Science.",
-      research: "My undergraduate research focuses on using quantitative methods to solve meaningful real-world problems, spanning socioeconomics and humanitarian assistance, financial risk, and mathematical modeling. At UIUC, I have worked with Prof. Angela Lyons, Prof. Xiaochen Jing, Prof. Frank Quan, and Prof. Yuliy Baryshnikov.",
-      industry: "In industry, my work focuses on quantitative analysis, product pricing, loss ratio analysis, AI model training, and data visualization, with applications of statistical modeling and machine learning to real-world problems.",
-      focusLead: "I am currently exploring opportunities in both Industry and Research, mainly in:",
-      focuses: [
-        { title: "Quantitative Research / Quantitative Analyst", description: "systematic trading, alpha and factor research, time-series and risk modeling, portfolio analysis, and market microstructure." },
-        { title: "Modeling / Product Data Science", description: "product and growth analytics, machine learning, fraud and risk modeling, recommender systems, customer segmentation, A/B testing, and dynamic pricing." },
-        { title: "Artificial Intelligence & Machine Learning", description: "AI Agents, Large Language Models, NLP, Machine Learning Systems, and model training and evaluation." },
+      intro: "Hi, I’m Ziqi Xu, and you can call me Zoe. I’m an undergraduate at the University of Illinois Urbana-Champaign (UIUC), pursuing a double major in Statistics and Actuarial Science.",
+      interestsIntro: "I am currently exploring opportunities in industry and research, with particular interest in:",
+      interests: [
+        { title: "Quantitative Research / Quantitative Analyst", body: "Systematic trading strategies, alpha and factor research, time-series and risk modeling, portfolio analysis, and market microstructure." },
+        { title: "Modeling / Product Data Science", body: "Business growth and product analytics, machine learning, fraud detection and risk modeling, recommendation systems, user and customer segmentation, experimental design / A/B testing, and dynamic pricing." },
+        { title: "Artificial Intelligence & Machine Learning", body: "AI agents, large language models, NLP, machine learning systems, model training and evaluation, and applying AI to real business and research problems." },
       ],
-      statement: "I am not afraid of challenges. What I fear more is becoming someone who stops learning and exploring. So I hope to keep learning and keep sharing.",
-      closing: "Feel free to connect with me on LinkedIn. I’m always happy to exchange ideas.",
     },
     zh: {
-      opening: "你好，我是 徐子琦，也可以叫我 Zoe。我目前就读于 伊利诺伊大学厄巴纳-香槟分校（UIUC），本科双专业为 统计学与精算学。",
-      research: "我的本科研究关注如何运用定量方法解决有意义的现实问题，研究方向涵盖社会经济与人道主义援助、金融风险以及数学结构与建模。在 UIUC，我有幸与 Prof. Angela Lyons、Prof. Xiaochen Jing、Prof. Frank Quan 和 Prof. Yuliy Baryshnikov 开展研究与项目合作。",
-      industry: "在行业实践中，我主要关注定量分析、产品定价、损失率分析、AI 模型训练与数据可视化，并将统计建模与机器学习应用于真实业务问题。",
-      focusLead: "目前，我正在积极探索 Industry 与 Research 的机会，主要关注：",
-      focuses: [
-        { title: "Quantitative Research / Quantitative Analyst", description: "系统化交易策略、Alpha Research、因子研究、时间序列建模、风险建模、投资组合分析与市场微观结构。" },
-        { title: "Modeling / Product Data Science", description: "商业增长与产品分析、Machine Learning、欺诈检测与风险建模、推荐系统、用户与客户细分、实验设计 / A/B Testing 与动态定价。" },
-        { title: "Artificial Intelligence & Machine Learning", description: "AI Agents、Large Language Models、NLP、Machine Learning Systems、模型训练与评估，以及 AI 在真实业务与研究问题中的应用。" },
+      intro: "你好，我是徐子琦，也可以叫我 Zoe。我目前就读于伊利诺伊大学厄巴纳-香槟分校（UIUC），本科双专业为统计学与精算学。",
+      interestsIntro: "目前，我正在积极探索 Industry 与 Research 的机会，主要关注：",
+      interests: [
+        { title: "Quantitative Research / Quantitative Analyst", body: "系统化交易策略、Alpha Research、因子研究、时间序列建模、风险建模、投资组合分析与市场微观结构。" },
+        { title: "Modeling / Product Data Science", body: "商业增长与产品分析、Machine Learning、欺诈检测与风险建模、推荐系统、用户与客户细分、实验设计 / A/B Testing 与动态定价。" },
+        { title: "Artificial Intelligence & Machine Learning", body: "AI Agents、Large Language Models、NLP、Machine Learning Systems、模型训练与评估，以及 AI 在真实业务与研究问题中的应用。" },
       ],
-      statement: "我不怕困难和挑战，我比较害怕自己是一个暗淡的人。所以我希望自己持续学习，保持分享。",
-      closing: "欢迎随时通过LinkedIn与我联系，期待与大家交流。",
     },
   },
   teaching: [
@@ -90,6 +82,20 @@ export const soa = {
     { name: "SOA Exam SRM", issued: text("Issued: May 2026", "通过时间：2026年5月") },
     { name: "SOA Exam FAM", issued: text("Issued: May 2026", "通过时间：2026年5月") },
   ],
+};
+
+export const credentials = {
+  awards: home.honors,
+  exams: soa.exams,
+  researchContribution: {
+    title: text("Technical Auditor", "技术审计员"),
+    work: "Humanity’s Last Exam: Auditing Model Steering Failures in Code Generation (arXiv:2501.14249)",
+    description: text(
+      "Credited in the publication; contributed evaluation feedback on model alignment and failure analysis during a Scale AI internship in 2025.",
+      "在论文中获致谢；2025 年于 Scale AI 实习期间，为模型对齐与失败分析提供评估反馈。",
+    ),
+    url: "https://arxiv.org/abs/2501.14249",
+  },
 };
 
 export const experience = [
@@ -134,6 +140,12 @@ export const experience = [
     logoSrc: "logos/atlas.png",
     order: 1,
   },
+];
+
+export const selectedExperience = [
+  { company: "Chubb", role: text("Actuarial Intern, Quantitative Pricing", "精算实习生，定量定价"), year: "2025", logoSrc: "logos/chubb.png" },
+  { company: "Scale AI", role: text("Technical Advisor Intern, Generative AI", "技术顾问实习生，生成式 AI"), year: "2025", logoSrc: "logos/scale-ai.png" },
+  { company: "NCSA", role: text("Data Scientist Intern – ML SPIN", "数据科学实习生 – ML SPIN"), year: "2024–2025", logoSrc: "logos/ncsa.png" },
 ];
 
 export const research = [
@@ -210,12 +222,52 @@ export const research = [
   },
 ];
 
-export const projectCategories = [
-  {
-    title: text("Selected Projects", "精选项目"),
-    description: text(
-      "Project entries will be added as work becomes ready to share. The structure supports category, concise description, methods, and detail routes without inventing unfinished project content.",
-      "项目完成并适合展示后将在此加入。该结构支持类别、简要说明、方法和详情路由，同时不会虚构尚未完成的项目内容。",
-    ),
-  },
+export const projectCategories: { slug: ProjectCategory; title: LocalizedText }[] = [
+  { slug: "sar", title: text("SAR — Search · Advertising · Recommendation", "SAR — 搜索 · 广告 · 推荐") },
+  { slug: "fraud-data-science", title: text("Fraud Data Science", "欺诈数据科学") },
+  { slug: "quantitative-research-trading", title: text("Quantitative Research & Trading", "量化研究与交易") },
+  { slug: "product-data-science-experimentation", title: text("Product Data Science & Experimentation", "产品数据科学与实验") },
+  { slug: "nlp-llm", title: text("NLP & LLM", "NLP 与大语言模型") },
+  { slug: "ml-systems-data-engineering", title: text("ML Systems & Data Engineering", "机器学习系统与数据工程") },
+];
+
+const section = (enTitle: string, zhTitle: string, enBody: string, zhBody: string, formulas: ProjectDetailSection["formulas"] = []) => ({ title: text(enTitle, zhTitle), body: [text(enBody, zhBody)], formulas });
+const formula = (enLabel: string, zhLabel: string, latex: string, enExplanation: string, zhExplanation: string) => ({ label: text(enLabel, zhLabel), latex, explanation: text(enExplanation, zhExplanation) });
+const plannedSections = (methods: string[]): ProjectDetailSection[] => [
+  section("Goal & Decision Context", "目标与决策背景", "This planned study starts from a decision problem rather than a model choice.", "该规划研究从决策问题出发，而不是先选择模型。"),
+  section("Research Questions", "研究问题", "The work will test whether the proposed approach adds value beyond transparent baselines.", "项目将检验该方法能否在透明基线之上带来增量价值。"),
+  section("Data Plan & Information Boundary", "数据计划与信息边界", "Data sources, timestamps, population boundaries, and leakage risks will be documented before modeling.", "将在建模前记录数据源、时间戳、样本边界与信息泄漏风险。"),
+  section("Planned Baselines & Methodology", "规划基线与方法", `The planned comparison uses: ${methods.join(", ")}.`, `计划比较的方法包括：${methods.join("、")}。`),
+  section("Validation & Evaluation", "验证与评估", "Validation will match the decision setting and separate model quality from decision quality and economic or business value.", "验证方案将匹配实际决策场景，并区分模型质量、决策质量与经济或业务价值。"),
+  section("Ablations, Robustness & Acceptance", "消融、稳健性与验收", "The final scope will include baseline comparisons, sensitivity checks, and pre-specified acceptance criteria.", "最终范围将包含基线比较、敏感性检查与预先设定的验收标准。"),
+  section("Production Considerations", "生产化考虑", "Implementation constraints, monitoring needs, and reproducibility requirements will be defined before any deployment claim.", "将在任何部署声明前明确实现约束、监控需求与可复现要求。"),
+  section("Missing Evidence", "待补充证据", "Results are not yet available. No completed dataset, outcome, or external deliverable is claimed.", "结果尚不可用。当前不声明已完成的数据集、结果或外部交付物。"),
+  section("Current Status", "当前状态", "Planned.", "规划中。"),
+];
+const planned = (slug: string, title: LocalizedText, categories: ProjectCategory[], description: LocalizedText, methods: string[], visualKind: ProjectItem["visualKind"]): ProjectItem => ({ slug, title, categories, status: "planned", description, methods, visualKind, destination: "internal", links: [], detailSections: plannedSections(methods) });
+const archive = (slug: string, title: LocalizedText, description: LocalizedText, methods: string[], visualKind: ProjectItem["visualKind"], links: ProjectItem["links"] = [], formulas: ProjectDetailSection["formulas"] = []): ProjectItem => ({ slug, title, categories: [], archived: true, status: "completed", description, methods, visualKind, destination: "internal", links, detailSections: [section("Academic Foundation", "学术基础", description.en, description.zh, formulas), section("Current Status", "当前状态", "Completed academic work retained as a reference project.", "作为参考项目保留的已完成学术工作。") ] });
+
+export const projects: ProjectItem[] = [
+  { slug: "sar-system", title: text("SAR Cosmos Lab", "SAR Cosmos Lab"), categories: ["sar"], status: "live", visualKind: "recommendation", destination: "external", description: text("A collaborative portfolio exploring production-oriented search, advertising, recommendation, retrieval, ranking, and large-scale ML systems.", "由 Ricky Gong 与 Ziqi Xu 协作的技术作品集，探索面向生产的搜索、广告、推荐、召回、排序与大规模机器学习系统。"), methods: ["Two-Tower Retrieval", "Learning-to-Rank", "CTR/CVR Modeling", "Candidate Generation", "Re-ranking", "Large-Scale Recommendation"], links: [], externalUrl: "https://ricky-s-gong.github.io/search-rec-ads-portfolio/en/", previewAlt: text("SAR Cosmos Lab homepage preview", "SAR Cosmos Lab 首页预览") },
+  planned("real-time-fraud-risk-decisioning", text("Real-Time Fraud Risk Decisioning", "实时欺诈风险决策"), ["fraud-data-science", "ml-systems-data-engineering"], text("Optimize approve, review, and decline decisions under fraud-loss, customer-friction, and review-capacity constraints.", "在欺诈损失、客户摩擦和人工审核能力约束下优化批准、审核与拒绝决策。"), ["LightGBM", "Temporal Validation", "Probability Calibration", "Cost-Sensitive Thresholding", "Recall@ReviewCapacity", "Spark Velocity Features", "SageMaker Deployment"], "fraud"),
+  planned("graph-fraud-account-takeover", text("Graph Fraud & Account Takeover", "图欺诈与账户接管"), ["fraud-data-science"], text("Detect coordinated fraud through shared devices, cards, accounts, and transaction networks.", "通过共享设备、卡片、账户与交易网络识别协同欺诈行为。"), ["GraphSAGE", "Node2Vec", "Neighbor-Risk Features", "Heterogeneous Graph", "Time-Aware Graph Split", "Graph + Tabular Ablation"], "fraud-graph"),
+  planned("fraud-drift-anomaly-monitoring", text("Fraud Drift & Anomaly Monitoring", "欺诈漂移与异常监控"), ["fraud-data-science", "ml-systems-data-engineering"], text("Study how fraud models degrade under evolving attack patterns and define a champion–challenger monitoring workflow.", "研究欺诈模型如何在不断演化的攻击模式下退化，并定义 champion–challenger 监控流程。"), ["Isolation Forest", "Autoencoder", "Population Stability Index", "KS Drift Test", "Calibration Drift", "Champion–Challenger", "Retraining Trigger"], "monitoring"),
+  { slug: "us-equity-cross-sectional-research", title: text("US Equity Cross-Sectional Factor & Alpha Research", "美股横截面因子与 Alpha 研究"), categories: ["quantitative-research-trading"], status: "in-progress", visualKind: "equity", destination: "internal", description: text("Test whether economically motivated equity characteristics retain stable cross-sectional predictive power after point-in-time alignment, neutralization, turnover, and transaction-cost controls.", "检验具有经济动机的股票特征在时点对齐、中性化、换手率和交易成本控制后，是否仍具稳定的横截面预测能力。"), methods: ["Rank IC", "Factor Neutralization", "Alpha Decay", "Quantile Portfolios", "Point-in-Time Fundamentals", "Transaction-Cost Stress", "Sector Exposure Control"], links: [], detailSections: [section("Decision Context & Research Question", "决策背景与研究问题", "The project asks whether a small pre-specified factor set can rank future relative returns without timing leakage.", "项目研究一组预先设定的因子能否在无时间泄漏的条件下对未来相对收益进行排序。"), section("Data Boundary & Baselines", "数据边界与基线", "The public prototype uses liquid U.S.-listed equities and daily OHLCV data; it is not survivorship-bias-free. Zero prediction and univariate sorts are explicit baselines.", "公开原型使用流动性美股与日度 OHLCV 数据，不具备消除幸存者偏差的条件；零预测与单变量排序是明确基线。"), section("Method Selection & Validation", "方法选择与验证", "Ridge and gradient boosting are compared under chronological validation. Rank IC, quintile spreads, turnover, and 0/5/10/20 bps cost stress are pre-specified checks.", "在时间顺序验证下比较 Ridge 与梯度提升；Rank IC、五分位收益差、换手率与 0/5/10/20 bps 成本压力是预先设定的检查。", [formula("Relative-return target", "相对收益目标", "y_{i,t}=r_{i,t}^{(5)}-\\frac{1}{N_t}\\sum_{j=1}^{N_t}r_{j,t}^{(5)}", "The target focuses on cross-sectional differentiation.", "目标聚焦横截面区分能力。"), formula("Rank IC", "Rank IC", "IC_t=\\rho_{\\mathrm{Spearman}}(\\hat y_{i,t},y_{i,t})", "Spearman correlation measures ranking alignment.", "Spearman 相关衡量排序一致性。")]), section("Current Status & Limitations", "当前状态与限制", "The data, model evaluation, and portfolio simulation pipeline is still in progress. No final performance result is claimed.", "数据、模型评估与投资组合模拟流程仍在进行中，不声明最终绩效结果。") ] },
+  planned("machine-learning-asset-pricing", text("Machine Learning Asset Pricing", "机器学习资产定价"), ["quantitative-research-trading"], text("Compare linear, tree-based, and neural models for cross-sectional return prediction under strict walk-forward validation.", "在严格滚动验证下比较线性、树模型与神经网络对横截面收益的预测能力。"), ["Elastic Net", "LightGBM", "Neural Networks", "Out-of-Sample R²", "Walk-Forward Validation", "SHAP", "Score-to-Portfolio Mapping"], "asset-pricing"),
+  planned("statistical-arbitrage-dynamic-relative-value", text("Statistical Arbitrage & Dynamic Relative Value", "统计套利与动态相对价值"), ["quantitative-research-trading"], text("Test whether dynamic relative-value models remain statistically stable after structural-break and transaction-cost controls.", "检验动态相对价值模型在结构断裂与交易成本控制后是否仍具统计稳定性。"), ["Cointegration", "Kalman Filter", "Ornstein–Uhlenbeck Process", "Rolling ADF", "Half-Life Estimation", "Walk-Forward Backtest", "Cost Sensitivity"], "stat-arb"),
+  planned("regime-aware-multi-asset-cta", text("Regime-Aware Multi-Asset CTA", "状态感知多资产 CTA"), ["quantitative-research-trading"], text("Build multi-asset time-series momentum portfolios with volatility targeting and regime-conditioned risk controls.", "构建具有波动率目标和状态条件风险控制的多资产时间序列动量组合。"), ["Time-Series Momentum", "EWMA Volatility", "Volatility Targeting", "Hidden Markov Model", "Multi-Horizon Signals", "Crisis Attribution", "Trend Reversal Analysis"], "cta"),
+  planned("volatility-tail-risk-stress-testing", text("Volatility, Tail Risk & Stress Testing", "波动率、尾部风险与压力测试"), ["quantitative-research-trading"], text("Compare econometric and machine-learning volatility forecasts and test VaR and Expected Shortfall calibration during stressed markets.", "比较计量与机器学习波动率预测，并在压力市场中检验 VaR 与 Expected Shortfall 校准。"), ["GARCH", "HAR-RV", "EWMA", "QLIKE", "Expected Shortfall", "Kupiec Test", "Filtered Historical Simulation"], "volatility"),
+  planned("alpha-to-execution-portfolio-engine", text("Alpha-to-Execution Portfolio Engine", "从 Alpha 到执行的组合引擎"), ["quantitative-research-trading"], text("Convert noisy alpha forecasts into constrained portfolios while controlling exposure, turnover, capacity, and implementation costs.", "将噪声 Alpha 预测转化为受约束投资组合，并控制暴露、换手、容量和实施成本。"), ["Mean-Variance Optimization", "Turnover Penalty", "Factor Neutrality", "ADV Capacity", "Implementation Shortfall", "TWAP/VWAP", "Transaction-Cost Model"], "execution"),
+  planned("experimentation-platform", text("Experimentation Platform", "实验平台"), ["product-data-science-experimentation"], text("Design statistically powered product experiments and translate treatment effects into launch decisions with guardrail constraints.", "设计具有统计效能的产品实验，并在护栏指标约束下将处理效应转化为上线决策。"), ["Power Analysis", "Minimum Detectable Effect", "Sample Ratio Mismatch", "CUPED", "Guardrail Metrics", "Multiple Testing", "Sequential Monitoring"], "experiment"),
+  planned("incrementality-uplift-modeling", text("Incrementality & Uplift Modeling", "增量与 Uplift 建模"), ["product-data-science-experimentation"], text("Identify users whose behavior changes because of treatment rather than users who would convert anyway.", "识别因处理而改变行为的用户，而不是本来就会转化的用户。"), ["S-Learner", "T-Learner", "X-Learner", "DR-Learner", "Causal Forest", "Qini Curve", "Policy Value"], "uplift"),
+  planned("observational-causal-inference", text("Observational Causal Inference", "观察性因果推断"), ["product-data-science-experimentation"], text("Estimate causal effects from observational data while making identification assumptions and sensitivity to confounding explicit.", "在观察性数据中估计因果效应，并明确识别假设与对混杂的敏感性。"), ["DAG", "Propensity Scores", "Inverse Probability Weighting", "Doubly Robust Estimation", "Double Machine Learning", "Difference-in-Differences", "Sensitivity Analysis"], "causal"),
+  planned("enterprise-rag-evaluation", text("Enterprise RAG Evaluation", "企业级 RAG 评估"), ["nlp-llm"], text("Determine which retrieval, reranking, chunking, and grounding choices make enterprise RAG reliable rather than merely fluent.", "确定哪些召回、重排序、切块和 grounding 选择能让企业 RAG 可靠，而不仅是语言流畅。"), ["BM25 + Dense Hybrid", "Cross-Encoder Reranking", "Chunking Ablation", "Recall@K", "MRR", "Citation Precision", "Faithfulness Evaluation"], "rag"),
+  planned("customer-complaint-intelligence", text("Customer Complaint Intelligence", "客户投诉智能分析"), ["nlp-llm"], text("Turn unstructured customer complaints into calibrated intent, risk, topic, and retrieval signals for analyst workflows.", "将非结构化客户投诉转化为经过校准的意图、风险、主题与检索信号，支持分析师工作流。"), ["TF-IDF Baseline", "Sentence Embeddings", "Transformer Classification", "Intent Taxonomy", "Long-Tail Error Analysis", "Probability Calibration", "Topic Clustering"], "language"),
+  planned("financial-nlp-alternative-data-alpha", text("Financial NLP & Alternative-Data Alpha", "金融 NLP 与另类数据 Alpha"), ["quantitative-research-trading", "nlp-llm"], text("Test whether timestamp-aligned public financial text contains incremental information for future returns after controlling for standard signals.", "检验经时间戳对齐的公开金融文本在控制标准信号后，是否包含对未来收益的增量信息。"), ["FinBERT", "Loughran–McDonald", "Structured Event Extraction", "Timestamp Alignment", "Event Study", "Incremental Rank IC", "Alternative Data"], "language"),
+  planned("large-scale-feature-training-pipeline", text("Large-Scale Feature & Training Pipeline", "大规模特征与训练管道"), ["ml-systems-data-engineering"], text("Build reproducible point-in-time training datasets and feature pipelines for large-scale ranking and fraud workloads.", "为大规模排序与欺诈工作负载构建可复现的时点训练数据集与特征管道。"), ["Spark Window Functions", "Point-in-Time Joins", "Partition Pruning", "Incremental ETL", "Feature Store Design", "Data Validation", "Backfill Strategy"], "pipeline"),
+  planned("production-ml-monitoring", text("Production ML Monitoring & Champion–Challenger", "生产 ML 监控与 Champion–Challenger"), ["ml-systems-data-engineering"], text("Monitor feature, prediction, calibration, and decision drift and define safe retraining and challenger-promotion rules.", "监控特征、预测、校准与决策漂移，并定义安全的再训练与 challenger 晋升规则。"), ["MLflow Registry", "SageMaker Endpoint", "CloudWatch Monitoring", "Feature Drift", "Prediction Drift", "Champion–Challenger", "Automated Retraining"], "monitoring"),
+  archive("zrx-usd-time-series-analysis", text("ZRX/USD Time Series & Predictive Modeling", "ZRX/USD 时间序列与预测建模"), text("A team study using regression, ARIMA(0,1,1) residual modeling, stationarity tests, and diagnostics.", "一项使用回归、ARIMA(0,1,1) 残差建模、平稳性检验与诊断的团队研究。"), ["ARIMA(0,1,1)", "ADF Test", "Ljung–Box Test", "AIC / BIC", "Regression with ARIMA Errors"], "time", [{ label: text("Watch presentation", "观看展示"), url: "https://youtu.be/upVRhvnteMk" }], [formula("Regression with ARIMA errors", "带 ARIMA 误差的回归", "Y_t=X_t^\\top\\beta+e_t,\\quad e_t\\sim ARIMA(0,1,1)", "The model keeps market predictors while modeling serial dependence.", "该模型在保留市场预测变量的同时对序列相关性建模。")]),
+  archive("reaction-time-statistical-modeling", text("Reaction Time Statistical Modeling", "反应时间统计建模"), text("An R-based study of demographic, behavioral, device, and environmental associations with reaction time.", "一项基于 R 的研究，分析人口、行为、设备与环境变量和反应时间之间的关联。"), ["Wilcoxon Rank-Sum", "Nested F-Test", "Best-Subset Selection", "Box–Cox Transform", "Residual Diagnostics"], "regression"),
+  archive("flu-shot-analytics", text("Flu Shot Analytics Dashboard", "流感疫苗分析仪表板"), text("A SQL cohort pipeline and Tableau dashboard measuring flu-vaccination coverage across demographic, geographic, and time dimensions.", "一项 SQL 队列管道与 Tableau 仪表板，衡量不同人口、地理与时间维度下的流感疫苗覆盖率。"), ["SQL CTEs", "Patient Cohort Definition", "LEFT JOIN Denominator Logic", "Coverage KPI", "Tableau"], "cohort", [{ label: text("View Tableau dashboard", "查看 Tableau 仪表板"), url: "https://public.tableau.com/app/profile/ziqi.xu6990/viz/FluShotsDashboard_17311271789370/Dashboard1" }]),
+  archive("math-deep-structure-research", text("Math Department Deep Structure Research", "数学系深层结构研究"), text("A collaborative research workspace studying faculty-network structure through similarity graphs, spectral methods, SVD, and hierarchical trees.", "一项协作研究，通过相似度图、谱方法、SVD 与层次树研究数学系教师网络结构。"), ["Similarity Graphs", "Normalized Laplacian", "Spectral Embedding", "Truncated SVD", "UPGMA / Neighbor Joining"], "graph"),
 ];

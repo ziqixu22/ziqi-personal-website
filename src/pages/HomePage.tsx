@@ -1,5 +1,5 @@
-import { home, localize, site, soa, type Language } from "../content/site";
-import { ExperienceList } from "../components/ExperienceList";
+import { credentials, home, localize, site, type Language } from "../content/site";
+import { SelectedExperienceList } from "../components/SelectedExperienceList";
 
 function SocialIcon({ type }: { type: "email" | "linkedin" | "github" }) {
   if (type === "linkedin") return <span className="social-icon linkedin-icon" aria-hidden="true">in</span>;
@@ -9,78 +9,47 @@ function SocialIcon({ type }: { type: "email" | "linkedin" | "github" }) {
 
 function AboutCopy({ language }: { language: Language }) {
   const content = home.about[language];
-  const links = {
-    university: "https://illinois.edu/",
-    statistics: "https://stat.illinois.edu/",
-    actuarialScience: "https://asrm.illinois.edu/",
-    angela: "https://csames.illinois.edu/directory/profile/anglyons",
-    xiaochen: "https://math.illinois.edu/directory/profile/xjing4",
-    frank: "https://www.zhiyuquan.net/",
-    yuliy: "https://ymb.web.illinois.edu/",
-  };
-
-  if (language === "zh") {
-    return <div className="intro">
-      <p>你好，我是 徐子琦，也可以叫我 Zoe。我目前就读于 <a className="link-institution" href={links.university} target="_blank" rel="noopener noreferrer">伊利诺伊大学厄巴纳-香槟分校（UIUC）</a>，本科双专业为 <a className="link-institution" href={links.statistics} target="_blank" rel="noopener noreferrer">统计学</a>与<a className="link-institution" href={links.actuarialScience} target="_blank" rel="noopener noreferrer">精算学</a>。</p>
-      <p>我的本科研究关注如何运用定量方法解决有意义的现实问题，研究方向涵盖社会经济与人道主义援助、金融风险以及数学结构与建模。在 UIUC，我有幸与 <a className="link-person" href={links.angela} target="_blank" rel="noopener noreferrer">Prof. Angela Lyons</a>、<a className="link-person" href={links.xiaochen} target="_blank" rel="noopener noreferrer">Prof. Xiaochen Jing</a>、<a className="link-person" href={links.frank} target="_blank" rel="noopener noreferrer">Prof. Frank Quan</a> 和 <a className="link-person" href={links.yuliy} target="_blank" rel="noopener noreferrer">Prof. Yuliy Baryshnikov</a> 开展研究与项目合作。</p>
-      <p>{content.industry}</p>
-      <p>{content.focusLead}</p>
-      <ul className="career-focus-list">{content.focuses.map((focus) => <li key={focus.title}><span className="career-focus-title">{focus.title}：</span>{focus.description}</li>)}</ul>
-      <p>{content.statement}</p>
-      <p>欢迎随时通过<a className="link-institution" href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>与我联系，期待与大家交流。</p>
-    </div>;
-  }
-
-  return <div className="intro">
-    <p>Hi, I’m Ziqi Xu, and you can also call me Zoe. I am currently studying at the <a className="link-institution" href={links.university} target="_blank" rel="noopener noreferrer">University of Illinois Urbana-Champaign (UIUC)</a>, double majoring in <a className="link-institution" href={links.statistics} target="_blank" rel="noopener noreferrer">Statistics</a> and <a className="link-institution" href={links.actuarialScience} target="_blank" rel="noopener noreferrer">Actuarial Science</a>.</p>
-    <p>My undergraduate research focuses on using quantitative methods to solve meaningful real-world problems, spanning socioeconomics and humanitarian assistance, financial risk, and mathematical modeling. At UIUC, I have worked with <a className="link-person" href={links.angela} target="_blank" rel="noopener noreferrer">Prof. Angela Lyons</a>, <a className="link-person" href={links.xiaochen} target="_blank" rel="noopener noreferrer">Prof. Xiaochen Jing</a>, <a className="link-person" href={links.frank} target="_blank" rel="noopener noreferrer">Prof. Frank Quan</a>, and <a className="link-person" href={links.yuliy} target="_blank" rel="noopener noreferrer">Prof. Yuliy Baryshnikov</a>.</p>
-    <p>{content.industry}</p>
-    <p>{content.focusLead}</p>
-    <ul className="career-focus-list">{content.focuses.map((focus) => <li key={focus.title}><span className="career-focus-title">{focus.title}:</span> {focus.description}</li>)}</ul>
-    <p>{content.statement}</p>
-    <p>Feel free to connect with me on <a className="link-institution" href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>. I’m always happy to exchange ideas.</p>
+  return <div className="about-longform">
+    <p>{content.intro}</p>
+    <div className="about-interests"><p>{content.interestsIntro}</p><div>{content.interests.map((interest) => <article key={interest.title}><h2>{interest.title}</h2><p>{interest.body}</p></article>)}</div></div>
   </div>;
 }
 
 export function HomePage({ language }: { language: Language }) {
-  return (
-    <>
-      <section className="home-hero">
-        <div className="home-portrait-column">
-          <img className="profile-photo" src="profile-ziqi.png" alt={language === "en" ? "Ziqi Xu" : "Ziqi Xu 的照片"} />
-          <div className="social-links" aria-label={language === "en" ? "Contact links" : "联系链接"}>
-            <a href={`mailto:${site.email}`}><SocialIcon type="email" /><span>Email</span></a>
-            <a href={site.linkedin} target="_blank" rel="noreferrer"><SocialIcon type="linkedin" /><span>LinkedIn</span></a>
-            <a href={site.github} target="_blank" rel="noreferrer"><SocialIcon type="github" /><span>GitHub</span></a>
-          </div>
+  return <>
+    <section className="home-hero">
+      <div className="hero-card home-profile-card">
+        <img className="profile-photo" src="profile-ziqi.png" alt={language === "en" ? "Ziqi Xu" : "Ziqi Xu 的照片"} />
+        <div className="social-links" aria-label={language === "en" ? "Contact links" : "联系链接"}>
+          <a href={`mailto:${site.email}`}><SocialIcon type="email" /><span>Email</span></a>
+          <a href={site.linkedin} target="_blank" rel="noopener noreferrer"><SocialIcon type="linkedin" /><span>LinkedIn</span></a>
+          <a href={site.github} target="_blank" rel="noopener noreferrer"><SocialIcon type="github" /><span>GitHub</span></a>
         </div>
-        <div className="home-intro">
-          <h1 className="home-about-heading">{localize(home.label, language)}</h1>
-          <AboutCopy language={language} />
-        </div>
-      </section>
+        <div className="selected-experience"><p className="card-kicker">{language === "en" ? "Selected Experience" : "精选经历"}</p><SelectedExperienceList language={language} /></div>
+      </div>
+      <div className="hero-card home-about-card">
+        <h1>{localize(home.label, language)}</h1>
+        <AboutCopy language={language} />
+      </div>
+    </section>
 
-      <section className="home-profile-section industry-section">
-        <div className="section-title"><h2>{language === "en" ? "Industry Experience" : "行业经历"}</h2></div>
-        <ExperienceList language={language} />
-      </section>
+    <section className="home-cta-grid" aria-label={language === "en" ? "Explore my work" : "探索我的工作"}>
+      <a href="#research"><span><b>{language === "en" ? "Explore Research" : "探索研究"}</b><small>{language === "en" ? "Applied work across markets, risk, and data science." : "涵盖市场、风险与数据科学的应用研究。"}</small></span><span aria-hidden="true">↗</span></a>
+      <a href="#projects"><span><b>{language === "en" ? "View Projects" : "查看项目"}</b><small>{language === "en" ? "Reproducible modeling and analytics projects." : "可复现的建模与分析项目。"}</small></span><span aria-hidden="true">↗</span></a>
+    </section>
 
-      <section className="home-profile-section teaching-section">
-        <div className="section-title"><h2>{language === "en" ? "Teaching & Academic Service" : "教学与学术服务"}</h2></div>
-        <div className="teaching-list">
-          {home.teaching.map((item) => <article className="teaching-row" key={item.role.en}><div><h3>{localize(item.role, language)}</h3><p>{item.institution}</p></div><time>{localize(item.dates, language)}</time></article>)}
-        </div>
-      </section>
+    <section className="credentials-section">
+      <div className="section-title"><p className="section-label">{language === "en" ? "Evidence" : "能力证明"}</p><h2>{language === "en" ? "Credentials & Recognition" : "资质与认可"}</h2></div>
+      <div className="credentials-grid">
+        <div className="credential-group credential-awards"><h3>{language === "en" ? "Awards" : "奖项"}</h3><div className="compact-awards">{credentials.awards.map((award) => <article key={award.title.en}><time>{award.year}</time><div><h4>{award.url ? <a href={award.url} target="_blank" rel="noopener noreferrer">{localize(award.title, language)} <span aria-hidden="true">↗</span></a> : localize(award.title, language)}</h4>{award.award ? <p>{localize(award.award, language)}</p> : null}{award.secondaryLink ? <a className="credential-link" href={award.secondaryLink.url} target="_blank" rel="noopener noreferrer">{localize(award.secondaryLink.label, language)} <span aria-hidden="true">↗</span></a> : null}</div></article>)}</div></div>
+        <div className="credential-group"><h3>{language === "en" ? "Actuarial Exams" : "精算考试"}</h3><div className="exam-chips">{credentials.exams.map((exam) => <span key={exam.name}><b>{exam.name.replace("SOA ", "")}</b><small>{localize(exam.issued, language).replace(language === "en" ? "Issued: " : "通过时间：", "")}</small></span>)}</div></div>
+        <div className="credential-group research-contribution"><h3>{language === "en" ? "Research Contribution" : "研究贡献"}</h3><p className="contribution-role">{localize(credentials.researchContribution.title, language)}</p><h4>{credentials.researchContribution.work}</h4><p>{localize(credentials.researchContribution.description, language)}</p><a className="credential-link" href={credentials.researchContribution.url} target="_blank" rel="noopener noreferrer">{language === "en" ? "View paper" : "查看论文"} <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
 
-      <section className="home-profile-section honors-section">
-        <div className="section-title"><h2>{language === "en" ? "Honors & Awards" : "荣誉与奖项"}</h2></div>
-        <div className="honors-list">{home.honors.map((honor) => <article key={honor.title.en} className="honor-row"><time>{honor.year}</time><div><h3>{honor.url ? <a className={honor.title.en === "State Farm Actuarial Science Scholarship" ? "link-institution" : "link-resource"} href={honor.url} target="_blank" rel="noopener noreferrer">{localize(honor.title, language)} ↗</a> : localize(honor.title, language)}</h3>{honor.award ? <p className="honor-award">{localize(honor.award, language)}</p> : null}{honor.project ? <p>{language === "en" ? "Project: " : "项目名称："}{localize(honor.project, language)}</p> : null}{honor.secondaryLink ? <a className="honor-link link-resource" href={honor.secondaryLink.url} target="_blank" rel="noreferrer">{localize(honor.secondaryLink.label, language)} ↗</a> : null}</div></article>)}</div>
-      </section>
-
-      <section className="home-profile-section soa-section">
-        <div className="soa-heading"><img src={soa.logoSrc} alt="Society of Actuaries logo" /><div><p className="section-label">{localize(soa.subtitle, language)}</p><h2><a href={soa.url} target="_blank" rel="noreferrer">{localize(soa.name, language)} ↗</a></h2></div></div>
-        <div className="exam-grid">{soa.exams.map((exam) => <article className="exam-row" key={exam.name}><h3>{exam.name}</h3><p>{localize(exam.issued, language)}</p></article>)}</div>
-      </section>
-    </>
-  );
+    <section className="teaching-section compact-section">
+      <div className="section-title"><h2>{language === "en" ? "Teaching & Academic Service" : "教学与学术服务"}</h2></div>
+      <div className="teaching-list">{home.teaching.map((item) => <article className="teaching-row" key={item.role.en}><div><h3>{localize(item.role, language)}</h3><p>{item.institution}</p></div><time>{localize(item.dates, language)}</time></article>)}</div>
+    </section>
+  </>;
 }
