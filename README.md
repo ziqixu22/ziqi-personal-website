@@ -1,50 +1,40 @@
-# Ziqi Xu — Professional Website
+# Ziqi Xu — Professional Portfolio Website
 
-A React + TypeScript portfolio website designed to present projects, experience, education, and technical interests in a cleaner and more structured format than a traditional one-page resume.
+A React + TypeScript portfolio website that brings together projects, experience, education, and technical interests in one recruiter-friendly interface.
 
-## 1. Project Goal
+## Why This Project Exists
 
-The purpose of this project is to create a central professional portfolio that helps recruiters and collaborators quickly understand:
+A resume is intentionally compressed, while GitHub repositories are optimized for implementation detail. This website fills the gap between the two: it gives a visitor enough context to understand the overall portfolio, then routes them to the most relevant GitHub projects, dashboards, and research artifacts.
 
-- my academic and professional background
-- selected quantitative, statistical, actuarial, and data projects
-- technical skills and tools
-- project links and research context
-- a concise narrative connecting otherwise different areas of experience
-
-This repository is a software / presentation project rather than a statistical modeling project, so there is no predictive model or mathematical evaluation metric to report.
-
-## 2. Why Build a Dedicated Website?
-
-A resume optimizes for brevity. A GitHub repository optimizes for code. A portfolio site provides a third layer that can connect the two:
+The site is designed around a simple communication flow:
 
 ```text
-Resume
-  ↓
-High-level experience and credentials
-  ↓
-Portfolio website
-  ↓
-Selected projects + context + links
-  ↓
-GitHub repositories / dashboards / research artifacts
+Recruiter / collaborator
+        |
+        v
+High-level background
+        |
+        v
+Selected experience and projects
+        |
+        v
+Project-specific GitHub / Tableau / research links
 ```
 
-The site is therefore intended to act as a navigation layer across different parts of the portfolio.
+The engineering goal is therefore not backend complexity. It is to build a maintainable, typed, reusable front-end that can evolve as the portfolio changes.
 
-## 3. Technology Stack
+## Technology Stack
 
-The project uses:
+- **React** — component-based interface construction
+- **TypeScript** — static typing for safer component and content interfaces
+- **Vite** — development server and production bundling
+- **Vitest** — automated testing
+- **Testing Library** — component-level UI testing
+- **CSS** — responsive layout and custom styling
+- **pnpm** — dependency management
+- **GitHub Actions + GitHub Pages** — automated deployment
 
-- **React** for component-based UI construction
-- **TypeScript** for static typing
-- **Vite** for local development and production builds
-- **Vitest** for automated tests
-- **Testing Library** for UI/component testing
-- **CSS** for custom responsive styling
-- **pnpm** for dependency management
-
-The package configuration defines the main development and verification commands:
+The main scripts are defined in `package.json`:
 
 ```bash
 pnpm dev
@@ -52,130 +42,124 @@ pnpm build
 pnpm test
 ```
 
-## 4. Project Structure
+The production build runs TypeScript compilation before bundling:
 
-The source code is organized by responsibility:
+```text
+tsc -b
+   |
+   v
+vite build
+```
+
+This catches type errors before a production artifact is generated. fileciteturn157file0L2-L2
+
+## Architecture
+
+The source tree separates application structure, reusable components, portfolio content, localization, and page-level views:
 
 ```text
 src/
 ├── app/          # application-level structure
-├── components/   # reusable UI components
+├── components/   # reusable UI elements
 ├── content/      # centralized portfolio content
-├── i18n/         # language / localization support
+├── i18n/         # localization support
 ├── pages/        # page-level views
 ├── main.tsx      # application entry point
 └── styles.css    # global styling
 ```
 
-This separation helps keep presentation logic independent from portfolio content.
-
-## 5. Why Separate Content from Components?
-
-Professional information changes more often than the site architecture. Keeping content in dedicated files reduces the need to edit layout components every time an experience, credential, or project changes.
+A key design decision is to keep portfolio content separate from layout logic. Experience, project, and credential updates happen more frequently than structural UI changes, so centralizing content reduces repeated edits across components.
 
 Conceptually:
 
-$$
-\text{Rendered Page}
-=
-\text{Reusable Components}
-+
-\text{Structured Content}.
-$$
+```text
+Structured portfolio content
+        +
+Reusable React components
+        |
+        v
+Rendered portfolio pages
+```
 
-This is not a statistical equation; it represents the architectural design principle used in the site.
+## Engineering Decisions
 
-The practical benefit is maintainability: adding or editing portfolio content should require minimal changes to UI logic.
+### React + TypeScript
 
-## 6. Development Workflow
+The site contains repeated interface patterns such as project cards, experience entries, and navigation sections. React provides reusable composition, while TypeScript helps ensure that components receive the expected content structure.
 
-### Local Development
+### Centralized Content
+
+Separating content from presentation improves maintainability. New projects or experience entries can be added without rewriting the surrounding UI architecture.
+
+### Vite Instead of a Heavier Framework
+
+The site is primarily a client-side portfolio and does not require server-side rendering, a database, or complex backend routing. Vite keeps the development and deployment stack lightweight.
+
+### Automated Deployment
+
+The repository includes a GitHub Actions workflow that runs whenever `main` is updated. The workflow checks out the repository, installs dependencies with a frozen lockfile, builds the site, uploads the `dist` artifact, and deploys it to GitHub Pages. fileciteturn156file0L2-L2
+
+Deployment flow:
+
+```text
+Push to main
+    |
+    v
+GitHub Actions
+    |
+    v
+pnpm install --frozen-lockfile
+    |
+    v
+pnpm build
+    |
+    v
+Upload dist/
+    |
+    v
+Deploy to GitHub Pages
+```
+
+## Verification Strategy
+
+This is a software project, so evaluation focuses on reliability and maintainability rather than statistical model metrics.
+
+The main checks are:
+
+- **Type correctness** — `tsc -b` completes successfully
+- **Production build** — Vite generates a deployable bundle
+- **Automated tests** — Vitest test cases pass
+- **Navigation integrity** — portfolio links resolve to the intended destinations
+- **Responsive behavior** — content remains usable across device widths
+- **Content maintainability** — project information can be updated without restructuring the application
+
+A release is considered ready only when the code can be typed, built, tested, and deployed successfully.
+
+## Local Development
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Vite provides a local development server with fast refresh for iterative UI work.
-
-### Production Build
-
-```bash
-pnpm build
-```
-
-The build command runs TypeScript compilation followed by the Vite production build:
-
-```text
-tsc -b
-   ↓
-vite build
-```
-
-A successful build therefore checks both type correctness and production bundling.
-
-### Tests
+To verify the project before deployment:
 
 ```bash
 pnpm test
+pnpm build
 ```
 
-The repository uses Vitest and Testing Library to verify UI behavior and help prevent regressions as content and components change.
+## Live Website
 
-## 7. Evaluation / Verification
+[Visit the deployed portfolio](https://ziqixu22.github.io/ziqi-personal-website/)
 
-For this project, evaluation is software-oriented rather than model-oriented.
-
-The main checks are:
-
-1. **Type correctness** — TypeScript compilation succeeds.
-2. **Build validity** — the production bundle is generated successfully.
-3. **Automated tests** — Vitest test cases pass.
-4. **Navigation consistency** — project and page links resolve correctly.
-5. **Responsive presentation** — content remains usable across screen sizes.
-6. **Content maintainability** — portfolio data can be updated without rewriting the full UI.
-
-A simple software-quality interpretation is:
-
-$$
-\text{Release Ready}
-=
-\text{Type Check Pass}
-\land
-\text{Build Pass}
-\land
-\text{Test Pass}.
-$$
-
-## 8. Design Decisions
-
-### React + TypeScript
-
-React is appropriate because the site contains repeated portfolio patterns—project cards, experience entries, navigation sections, and reusable layout elements. TypeScript reduces errors when those components consume structured content.
-
-### Vite
-
-Vite keeps the project lightweight and provides a fast development workflow without requiring a heavier application framework for a primarily client-side portfolio.
-
-### Centralized Content
-
-Separating content from presentation makes the website easier to maintain as projects and career information change over time.
-
-## 9. Live Website
-
-[Visit the website](https://ziqixu22.github.io/ziqi-personal-website/)
-
-## 10. Current Status
-
-The site is functional and includes the project architecture, development tooling, build pipeline, and portfolio content structure. Some content fields are intentionally centralized so they can be updated as the portfolio evolves.
-
-## 11. Repository Contents
+## Repository Structure
 
 ```text
 .
-├── .github/          # automation / workflow configuration
+├── .github/          # GitHub Actions deployment workflow
 ├── public/           # static assets
-├── src/              # React + TypeScript source
+├── src/              # React + TypeScript application
 ├── index.html
 ├── package.json
 ├── pnpm-lock.yaml
@@ -184,12 +168,12 @@ The site is functional and includes the project architecture, development toolin
 └── README.md
 ```
 
-## 12. Skills Demonstrated
+## What This Project Demonstrates
 
-React · TypeScript · Vite · Front-End Architecture · Component Design · Testing · Responsive UI · GitHub Pages · Portfolio Design
+React · TypeScript · Front-End Architecture · Reusable Components · Testing · Responsive UI · CI/CD · GitHub Actions · GitHub Pages · Portfolio Design
 
-## 13. Limitations
+## Limitations
 
-- This is a portfolio website, not a full-stack application.
-- The primary goal is communication and maintainability rather than backend complexity.
-- Project-specific technical depth lives in the linked GitHub repositories rather than being duplicated in the website codebase.
+- This is intentionally a front-end portfolio, not a full-stack application.
+- The primary objective is communication, maintainability, and deployment reliability rather than backend complexity.
+- Deep technical details for individual analytics and research projects remain in their own repositories instead of being duplicated here.
