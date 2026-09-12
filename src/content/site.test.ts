@@ -262,10 +262,24 @@ describe("portfolio content model", () => {
     render(createElement(ProjectDetailPage, { language: "en", slug: "llm-evaluation-release-platform" }));
 
     expect(screen.getByRole("heading", { name: "LLM Evaluation & Release Decision Platform" })).toBeTruthy();
-    expect(screen.getByText(/HUMAN_REVIEW_REQUIRED/)).toBeTruthy();
+    expect(screen.getAllByText(/HUMAN_REVIEW_REQUIRED/).length).toBeGreaterThan(0);
     expect(screen.getByText(/47\.44%/)).toBeTruthy();
     expect(screen.getByRole("list", { name: "Workflow" })).toBeTruthy();
     expect(screen.getByRole("link", { name: /GitHub repository/i }).getAttribute("href")).toBe("https://github.com/ziqixu22/llm-evaluation-release-platform");
+  });
+
+  it("uses one linear technical tutorial for the fraud project", () => {
+    const { unmount } = render(createElement(ProjectDetailPage, { language: "en", slug: "production-fraud-risk-decision-system" }));
+
+    expect(screen.getByText("Build the fraud system from zero")).toBeTruthy();
+    expect(screen.getByText("1. Frame fraud as a decision problem")).toBeTruthy();
+    expect(screen.getByText("5. Evaluate ranking and probability quality separately")).toBeTruthy();
+    expect(screen.queryByText("Learn this project step by step")).toBeNull();
+    expect(document.querySelectorAll(".katex").length).toBeGreaterThan(0);
+    unmount();
+
+    render(createElement(ProjectDetailPage, { language: "en", slug: "us-equity-cross-sectional-research" }));
+    expect(screen.getByText("Define the prediction target before modeling")).toBeTruthy();
   });
 
   it("marks the active navigation destination for assistive technology", () => {

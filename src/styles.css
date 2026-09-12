@@ -464,6 +464,34 @@ body::before {
 .teaching-entry .research-brand > time { padding-top: 0; }
 
 .project-workflow-section { max-width: 760px; margin: 34px auto 0; padding: 0; }
+.fraud-getting-started { max-width: 860px; margin: 36px auto 0; padding: 28px; border-radius: 22px; background: linear-gradient(135deg, rgba(139,124,246,.14), rgba(77,205,224,.1)); }
+.fraud-getting-started > h2 { margin: 0 0 20px; font-size: clamp(25px, 3vw, 33px); }
+.fraud-getting-started > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.fraud-getting-started article { padding: 16px; border: 1px solid rgba(255,255,255,.7); border-radius: 15px; background: rgba(255,255,255,.45); }
+.fraud-getting-started h3 { margin: 0 0 8px; font-size: 15px; }
+.fraud-getting-started p, .fraud-getting-started ol { margin: 0; color: var(--body); font-size: 12px; line-height: 1.65; }
+.fraud-getting-started ol { padding-left: 17px; }
+.fraud-getting-started code { color: var(--teal-dark); font-size: 10px; }
+.project-system-map { max-width: 860px; margin: 36px auto 0; padding: 28px; border: 1px solid rgba(255, 255, 255, .78); border-radius: 22px; background: linear-gradient(135deg, rgba(255, 255, 255, .62), rgba(228, 242, 255, .4)); box-shadow: 0 16px 40px rgba(50, 69, 121, .08); }
+.project-system-map > .section-label { margin: 0 0 8px; color: var(--teal-dark); }
+.project-system-map > h2 { margin: 0 0 8px; font-size: clamp(25px, 3vw, 33px); }
+.project-system-map > p { max-width: 62ch; margin: 0 0 22px; color: var(--body); }
+.project-system-map ol { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: stages; }
+.project-system-map li { position: relative; padding: 16px 17px 16px 27px; border-left: 2px solid rgba(139, 124, 246, .5); background: rgba(255, 255, 255, .35); }
+.project-system-map li::before { position: absolute; top: 20px; left: -7px; width: 11px; height: 11px; content: ""; border-radius: 50%; background: var(--violet); box-shadow: 0 0 0 4px rgba(139, 124, 246, .12); }
+.project-system-map h3 { margin: 0 0 10px; color: var(--ink); font-size: 16px; }
+.project-system-map dl { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px; margin: 0; }
+.project-system-map dt { margin-bottom: 4px; color: var(--teal-dark); font-size: 9px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+.project-system-map dd { margin: 0; color: var(--body); font-size: 11px; line-height: 1.55; }
+.fraud-technical-tutorial { max-width: 860px; margin: 42px auto 0; }
+.fraud-technical-tutorial > h2 { margin: 0 0 20px; font-size: clamp(26px, 3vw, 34px); }
+.fraud-technical-tutorial > article { padding: 26px 0; border-top: 1px solid rgba(18, 33, 58, .12); }
+.fraud-technical-tutorial h3 { margin: 0 0 9px; font-size: 22px; }
+.tutorial-code { display: inline-block; margin: 0 0 16px; padding: 5px 8px; border-radius: 6px; background: rgba(139,124,246,.1); color: var(--teal-dark); font: 600 10px/1.25 ui-monospace, monospace; }
+.fraud-technical-tutorial article > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
+.fraud-technical-tutorial article section { padding: 15px; border-radius: 13px; background: rgba(255,255,255,.4); }
+.fraud-technical-tutorial h4 { margin: 0 0 7px; color: var(--teal-dark); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; }
+.fraud-technical-tutorial article section p { margin: 0; color: var(--body); font-size: 12px; line-height: 1.65; }
 .project-workflow-section > .section-label { margin: 0 0 15px; color: var(--teal-dark); }
 .project-workflow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
 .project-workflow li { min-width: 0; padding: 15px; border: 1px solid rgba(255, 255, 255, .7); border-radius: 16px; background: rgba(255, 255, 255, .3); }
@@ -480,6 +508,28 @@ body::before {
 .project-detail-footer nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 14px; }
 .project-detail-footer nav a { font-size: 11px; font-weight: 500; }
 .visual-evaluation { background: radial-gradient(circle at 72% 26%, rgba(116, 221, 180, .48), transparent 18%), linear-gradient(135deg, #efeaff, #e2f7fb); }
+.project-learning-guide { max-width: 760px; margin: 38px auto 0; border: 1px solid rgba(255, 255, 255, .78); border-radius: 20px; background: linear-gradient(135deg, rgba(255, 255, 255, .6), rgba(232, 243, 255, .32)); box-shadow: 0 16px 40px rgba(50, 69, 121, .08); }
+.project-learning-guide summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 21px 24px; color: var(--ink); cursor: pointer; font: 700 19px/1.25 var(--display); list-style: none; }
+.project-learning-guide summary::-webkit-details-marker { display: none; }
+.project-learning-guide summary::after { width: 22px; height: 22px; flex: 0 0 auto; content: "+"; border: 1px solid rgba(139, 124, 246, .4); border-radius: 50%; color: var(--violet); font: 500 18px/19px var(--sans); text-align: center; }
+.project-learning-guide[open] summary { border-bottom: 1px solid rgba(18, 33, 58, .1); }
+.project-learning-guide[open] summary::after { content: "−"; }
+.project-learning-guide summary small { color: var(--muted); font: 600 10px/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
+.project-learning-guide summary:focus-visible { outline: 3px solid rgba(77, 205, 224, .52); outline-offset: -4px; border-radius: inherit; }
+.project-learning-steps { padding: 4px 24px 18px; }
+.project-learning-step { padding: 27px 0; border-bottom: 1px solid rgba(18, 33, 58, .1); }
+.project-learning-step:last-child { border-bottom: 0; }
+.project-learning-step > .section-label { margin: 0 0 7px; color: var(--violet); }
+.project-learning-step h2 { margin: 0 0 18px; color: var(--ink); font-size: clamp(22px, 3vw, 28px); }
+.project-learning-step dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; }
+.project-learning-step dl > div { min-width: 0; padding: 14px; border-radius: 13px; background: rgba(255, 255, 255, .38); }
+.project-learning-step dt { margin-bottom: 7px; color: var(--teal-dark); font-size: 10px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+.project-learning-step dd { margin: 0; color: var(--body); font-size: 12px; line-height: 1.6; }
+.project-learning-step .project-learning-interview { grid-column: 1 / -1; border-left: 2px solid var(--violet); background: linear-gradient(90deg, rgba(139, 124, 246, .1), rgba(77, 205, 224, .04)); }
+.project-learning-code { margin: 16px 0 0; overflow: hidden; border: 1px solid rgba(18, 33, 58, .12); border-radius: 12px; background: rgba(18, 33, 58, .96); color: #eaf3ff; }
+.project-learning-code figcaption { padding: 9px 13px; border-bottom: 1px solid rgba(255, 255, 255, .12); color: #8be3e1; font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.project-learning-code pre { margin: 0; padding: 13px; overflow-x: auto; white-space: pre; font: 10px/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.project-learning-code p { margin: 0; padding: 0 13px 13px; color: #c8d7ea; font-size: 11px; line-height: 1.55; }
 
 @media (min-width: 1100px) {
   .project-card-content { padding: 20px 21px 11px; }
@@ -497,4 +547,15 @@ body::before {
   .project-workflow li > span { margin: 2px 0 0; }
   .project-detail-footer { align-items: flex-start; flex-direction: column; }
   .project-detail-footer nav { justify-content: flex-start; }
+  .project-learning-guide { margin-top: 28px; }
+  .project-system-map { margin-top: 28px; padding: 21px; }
+  .project-system-map dl { grid-template-columns: 1fr; gap: 10px; }
+  .fraud-getting-started { padding: 21px; }
+  .fraud-getting-started > div { grid-template-columns: 1fr; }
+  .fraud-technical-tutorial article > div { grid-template-columns: 1fr; }
+  .project-learning-guide summary { align-items: flex-start; padding: 19px; font-size: 17px; }
+  .project-learning-guide summary small { display: none; }
+  .project-learning-steps { padding: 4px 19px 14px; }
+  .project-learning-step dl { grid-template-columns: 1fr; }
+  .project-learning-step .project-learning-interview { grid-column: auto; }
 }

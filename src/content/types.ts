@@ -23,6 +23,16 @@ export type ProjectWorkflowStep = {
   title: LocalizedText;
   detail: LocalizedText;
 };
+export type ProjectLearningStep = {
+  title: LocalizedText;
+  learn: LocalizedText;
+  action: LocalizedText;
+  check: LocalizedText;
+  interview: LocalizedText;
+  code?: string;
+  codeExplanation?: LocalizedText;
+  formula?: ProjectFormula;
+};
 export type ProjectVisualKind = "equity" | "fraud" | "fraud-graph" | "monitoring" | "asset-pricing" | "stat-arb" | "cta" | "volatility" | "execution" | "experiment" | "uplift" | "causal" | "recommendation" | "search" | "rag" | "language" | "evaluation" | "pipeline" | "graph" | "time" | "regression" | "cohort" | "tbd";
 type ProjectBase = {
   slug: string;
