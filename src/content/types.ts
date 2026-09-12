@@ -19,7 +19,11 @@ export type ProjectDetailSection = {
   body: LocalizedText[];
   formulas?: ProjectFormula[];
 };
-export type ProjectVisualKind = "equity" | "fraud" | "fraud-graph" | "monitoring" | "asset-pricing" | "stat-arb" | "cta" | "volatility" | "execution" | "experiment" | "uplift" | "causal" | "recommendation" | "search" | "rag" | "language" | "pipeline" | "graph" | "time" | "regression" | "cohort" | "tbd";
+export type ProjectWorkflowStep = {
+  title: LocalizedText;
+  detail: LocalizedText;
+};
+export type ProjectVisualKind = "equity" | "fraud" | "fraud-graph" | "monitoring" | "asset-pricing" | "stat-arb" | "cta" | "volatility" | "execution" | "experiment" | "uplift" | "causal" | "recommendation" | "search" | "rag" | "language" | "evaluation" | "pipeline" | "graph" | "time" | "regression" | "cohort" | "tbd";
 type ProjectBase = {
   slug: string;
   title: LocalizedText;
@@ -35,6 +39,8 @@ type ProjectBase = {
 export type InternalProjectItem = ProjectBase & {
   destination: "internal";
   detailSections: ProjectDetailSection[];
+  workflow?: ProjectWorkflowStep[];
+  interviewTakeaway?: LocalizedText;
 };
 
 export type ExternalProjectItem = ProjectBase & {

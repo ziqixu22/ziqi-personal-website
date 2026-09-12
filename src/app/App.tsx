@@ -39,22 +39,24 @@ export function App() {
   }, [route]);
 
   return (
-    <div className="site-shell">
+    <>
       <SiteHeader language={language} page={page} onLanguageChange={setLanguage} />
-      <main>
-        {route.kind === "project" ? (
-          <Suspense fallback={<p className="page-loading">Loading project…</p>}>
-            <ProjectDetailPage language={language} slug={route.slug} />
-          </Suspense>
-        ) : route.page === "research" ? (
-          <ResearchPage language={language} />
-        ) : route.page === "projects" ? (
-          <ProjectsPage language={language} category={route.category} />
-        ) : (
-          <HomePage language={language} />
-        )}
-      </main>
-      <SiteFooter language={language} showQuote={route.kind === "page" && route.page === "home"} />
-    </div>
+      <div className="site-shell">
+        <main>
+          {route.kind === "project" ? (
+            <Suspense fallback={<p className="page-loading">Loading project…</p>}>
+              <ProjectDetailPage language={language} slug={route.slug} />
+            </Suspense>
+          ) : route.page === "research" ? (
+            <ResearchPage language={language} />
+          ) : route.page === "projects" ? (
+            <ProjectsPage language={language} category={route.category} />
+          ) : (
+            <HomePage language={language} />
+          )}
+        </main>
+        <SiteFooter language={language} showQuote={route.kind === "page" && route.page === "home"} />
+      </div>
+    </>
   );
 }

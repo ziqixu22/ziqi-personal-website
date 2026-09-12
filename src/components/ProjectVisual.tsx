@@ -18,6 +18,7 @@ const labels: Record<ProjectVisualKind, Record<Language, string>> = {
   cohort: { en: "Cohort pipeline", zh: "队列管道" },
   pipeline: { en: "Planned data workflow", zh: "规划数据工作流" },
   language: { en: "Planned evaluation", zh: "规划评估" },
+  evaluation: { en: "Release evaluation gate", zh: "发布评估门槛" },
   causal: { en: "Planned causal design", zh: "规划因果设计" },
   recommendation: { en: "Retrieval to ranking architecture", zh: "召回到排序架构" },
   search: { en: "Hybrid retrieval architecture", zh: "混合召回架构" },

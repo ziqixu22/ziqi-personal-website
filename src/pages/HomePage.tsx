@@ -42,14 +42,10 @@ export function HomePage({ language }: { language: Language }) {
       <div className="section-title"><p className="section-label">{language === "en" ? "Evidence" : "能力证明"}</p><h2>{language === "en" ? "Credentials & Recognition" : "资质与认可"}</h2></div>
       <div className="credentials-grid">
         <div className="credential-group credential-awards"><h3>{language === "en" ? "Awards" : "奖项"}</h3><div className="compact-awards">{credentials.awards.map((award) => <article key={award.title.en}><time>{award.year}</time><div><h4>{award.url ? <a href={award.url} target="_blank" rel="noopener noreferrer">{localize(award.title, language)} <span aria-hidden="true">↗</span></a> : localize(award.title, language)}</h4>{award.award ? <p>{localize(award.award, language)}</p> : null}{award.secondaryLink ? <a className="credential-link" href={award.secondaryLink.url} target="_blank" rel="noopener noreferrer">{localize(award.secondaryLink.label, language)} <span aria-hidden="true">↗</span></a> : null}</div></article>)}</div></div>
-        <div className="credential-group"><h3>{language === "en" ? "Actuarial Exams" : "精算考试"}</h3><div className="exam-chips">{credentials.exams.map((exam) => <span key={exam.name}><b>{exam.name.replace("SOA ", "")}</b><small>{localize(exam.issued, language).replace(language === "en" ? "Issued: " : "通过时间：", "")}</small></span>)}</div></div>
+        <div className="credential-group"><h3>{language === "en" ? "Actuarial Exams (SOA)" : "精算考试"}</h3><div className="exam-chips">{credentials.exams.map((exam) => <span key={exam.name}><b>{exam.name.replace("SOA ", "")}</b><small>{localize(exam.issued, language).replace(language === "en" ? "Issued: " : "通过时间：", "")}</small></span>)}</div></div>
         <div className="credential-group research-contribution"><h3>{language === "en" ? "Research Contribution" : "研究贡献"}</h3><p className="contribution-role">{localize(credentials.researchContribution.title, language)}</p><h4>{credentials.researchContribution.work}</h4><p>{localize(credentials.researchContribution.description, language)}</p><a className="credential-link" href={credentials.researchContribution.url} target="_blank" rel="noopener noreferrer">{language === "en" ? "View paper" : "查看论文"} <span aria-hidden="true">↗</span></a></div>
       </div>
     </section>
 
-    <section className="teaching-section compact-section">
-      <div className="section-title"><h2>{language === "en" ? "Teaching & Academic Service" : "教学与学术服务"}</h2></div>
-      <div className="teaching-list">{home.teaching.map((item) => <article className="teaching-row" key={item.role.en}><div><h3>{localize(item.role, language)}</h3><p>{item.institution}</p></div><time>{localize(item.dates, language)}</time></article>)}</div>
-    </section>
   </>;
 }

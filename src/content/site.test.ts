@@ -8,6 +8,7 @@ import { languageStorageKey, normalizeLanguage } from "../i18n/language";
 import { HomePage } from "../pages/HomePage";
 import { ProjectDetailPage } from "../pages/ProjectDetailPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
+import { ResearchPage } from "../pages/ResearchPage";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
 import { parseRoute } from "../app/routes";
@@ -97,10 +98,29 @@ describe("portfolio content model", () => {
   });
 
   it("does not show a return-to-top link in the shared footer", () => {
-    render(createElement(SiteFooter, { language: "en", showQuote: true }));
+    const { unmount } = render(createElement(SiteFooter, { language: "en", showQuote: true }));
 
     expect(screen.queryByRole("link", { name: /back to top|return to top/i })).toBeNull();
-    expect(screen.getByText(/losing my spark/i)).toBeTruthy();
+    expect(screen.getByText("I’m not afraid of difficulty or challenge. What I fear more is losing my spark. Stay hungry, stay foolish")).toBeTruthy();
+    unmount();
+
+    render(createElement(SiteFooter, { language: "zh", showQuote: true }));
+    expect(screen.getByText("我不怕困难和挑战，我比较害怕自己是一个暗淡的人。持续学习，长期主义。")).toBeTruthy();
+  });
+
+  it("moves teaching from Home to Research using the same entry treatment", () => {
+    const { unmount } = render(createElement(HomePage, { language: "en" }));
+
+    expect(screen.queryByRole("heading", { name: /Teaching/ })).toBeNull();
+    expect(screen.queryByText("ASRM 402 Grader")).toBeNull();
+    unmount();
+
+    const { container } = render(createElement(ResearchPage, { language: "en" }));
+    expect(screen.getByRole("heading", { name: "Teaching Experience" })).toBeTruthy();
+    expect(screen.getByText("ASRM 402 Grader")).toBeTruthy();
+    expect(screen.getByText("STAT 400 Course Assistant")).toBeTruthy();
+    expect(container.querySelectorAll(".teaching-entry.research-entry")).toHaveLength(2);
+    expect(container.querySelector(".teaching-row")).toBeNull();
   });
 
   it("shows only the three recruiter-priority experiences on Home", () => {
@@ -135,6 +155,7 @@ describe("portfolio content model", () => {
     render(createElement(HomePage, { language: "en" }));
 
     expect(screen.getByText(/Technical Auditor/)).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Actuarial Exams (SOA)" })).toBeTruthy();
     expect(screen.getByRole("link", { name: /View paper/ }).getAttribute("href")).toBe("https://arxiv.org/abs/2501.14249");
     expect(document.body.textContent).not.toMatch(/paper author|co-author/i);
   });
@@ -148,22 +169,30 @@ describe("portfolio content model", () => {
       "nlp-llm",
       "ml-systems-data-engineering",
     ]);
-    expect(projects).toHaveLength(22);
+    expect(projects).toHaveLength(23);
     expect(projects.find((project) => project.slug === "pathtrees")).toBeUndefined();
     expect(projects.find((project) => project.slug === "large-scale-recommendation-ranking")).toBeUndefined();
     expect(projects.find((project) => project.slug === "search-ranking-hybrid-retrieval")).toBeUndefined();
+    expect(projects.find((project) => project.slug === "experimentation-platform")).toBeUndefined();
+    expect(projects.find((project) => project.slug === "real-time-fraud-risk-decisioning")).toBeUndefined();
+    expect(projects.find((project) => project.slug === "ecommerce-product-analytics-experimentation")?.status).toBe("completed");
+    expect(projects.find((project) => project.slug === "llm-evaluation-release-platform")?.categories).toEqual(["nlp-llm", "ml-systems-data-engineering"]);
+    expect(projects.find((project) => project.slug === "llm-evaluation-release-platform")?.status).toBe("completed");
+    expect(projects.find((project) => project.slug === "production-fraud-risk-decision-system")?.categories).toEqual(["fraud-data-science", "ml-systems-data-engineering"]);
     expect(projects.find((project) => project.slug === "us-equity-cross-sectional-research")?.status).toBe("in-progress");
-    expect(projects.filter((project) => project.status === "planned")).toHaveLength(16);
+    expect(projects.filter((project) => project.status === "planned")).toHaveLength(14);
+    expect(projects.filter((project) => project.status === "completed")).toHaveLength(7);
     expect(projects.find((project) => project.slug === "sar-system")?.status).toBe("live");
     expect(projects.filter((project) => project.archived)).toHaveLength(4);
     expect(projects.find((project) => project.slug === "financial-nlp-alternative-data-alpha")?.categories).toEqual(["quantitative-research-trading", "nlp-llm"]);
 
-    render(createElement(ProjectsPage, { language: "en" }));
+    const { container } = render(createElement(ProjectsPage, { language: "en" }));
 
     expect(screen.getByRole("link", { name: /Fraud Data Science/ }).getAttribute("href")).toBe("#projects/category/fraud-data-science");
     expect(screen.getByRole("link", { name: /US Equity Cross-Sectional Factor/ }).getAttribute("href")).toBe("#projects/project/us-equity-cross-sectional-research");
     expect(screen.getByText("In Progress")).toBeTruthy();
-    expect(screen.getAllByText("Planned")).toHaveLength(19);
+    expect(screen.getAllByText("Planned")).toHaveLength(16);
+    expect(screen.getAllByText("Completed")).toHaveLength(5);
     expect(screen.getByText("Live Portfolio")).toBeTruthy();
     const sarLink = screen.getByRole("link", { name: /Open SAR Cosmos Lab/i });
     expect(sarLink.getAttribute("href")).toBe("https://ricky-s-gong.github.io/search-rec-ads-portfolio/en/");
@@ -171,15 +200,17 @@ describe("portfolio content model", () => {
     expect(sarLink.getAttribute("rel")).toContain("noopener");
     expect(screen.queryByText("Capability")).toBeNull();
     expect(screen.queryByText(/Predictive and structural modeling/i)).toBeNull();
-    expect(document.body.textContent).not.toContain("View GitHub");
-    expect(screen.getByText(/Academic Foundations/i)).toBeTruthy();
+    expect(screen.getAllByRole("link", { name: /GitHub repository/i })).toHaveLength(5);
+    expect(screen.queryByText(/Academic Foundations/i)).toBeNull();
+    expect(container.querySelector("#category-sar .project-grid")?.classList.contains("project-grid--single")).toBe(true);
   });
 
   it("renders the new portfolio content in Chinese", () => {
     render(createElement(ProjectsPage, { language: "zh" }));
 
     expect(screen.getByText("进行中")).toBeTruthy();
-    expect(screen.getAllByText("计划中")).toHaveLength(19);
+    expect(screen.getAllByText("计划中")).toHaveLength(16);
+    expect(screen.getAllByText("已完成")).toHaveLength(5);
     expect(screen.getByText("在线作品集")).toBeTruthy();
     expect(screen.getAllByText("欺诈数据科学")).toHaveLength(2);
   });
@@ -207,10 +238,34 @@ describe("portfolio content model", () => {
   });
 
   it("keeps planned project details explicitly result-free", () => {
-    render(createElement(ProjectDetailPage, { language: "en", slug: "real-time-fraud-risk-decisioning" }));
+    render(createElement(ProjectDetailPage, { language: "en", slug: "graph-fraud-account-takeover" }));
 
     expect(screen.getByText(/Results are not yet available/)).toBeTruthy();
     expect(document.body.textContent).not.toMatch(/Sharpe|AUC|drawdown/i);
+  });
+
+  it("renders verified completed projects and preserves their legacy detail links", () => {
+    const { unmount } = render(createElement(ProjectDetailPage, { language: "en", slug: "production-fraud-risk-decision-system" }));
+
+    expect(screen.getByRole("heading", { name: "Production Fraud Risk Decision System" })).toBeTruthy();
+    expect(screen.getByText(/0\.5728/)).toBeTruthy();
+    expect(screen.getByRole("link", { name: /GitHub repository/i }).getAttribute("href")).toBe("https://github.com/ziqixu22/production-fraud-risk-decision-system");
+    expect(document.body.textContent).not.toContain("Results are not yet available");
+    unmount();
+
+    render(createElement(ProjectDetailPage, { language: "en", slug: "experimentation-platform" }));
+    expect(screen.getByRole("heading", { name: "E-commerce Product Analytics & Experimentation Platform" })).toBeTruthy();
+    expect(screen.getByText(/13,979,592/)).toBeTruthy();
+  });
+
+  it("renders the completed LLM release gate as a human-review case study", () => {
+    render(createElement(ProjectDetailPage, { language: "en", slug: "llm-evaluation-release-platform" }));
+
+    expect(screen.getByRole("heading", { name: "LLM Evaluation & Release Decision Platform" })).toBeTruthy();
+    expect(screen.getByText(/HUMAN_REVIEW_REQUIRED/)).toBeTruthy();
+    expect(screen.getByText(/47\.44%/)).toBeTruthy();
+    expect(screen.getByRole("list", { name: "Workflow" })).toBeTruthy();
+    expect(screen.getByRole("link", { name: /GitHub repository/i }).getAttribute("href")).toBe("https://github.com/ziqixu22/llm-evaluation-release-platform");
   });
 
   it("marks the active navigation destination for assistive technology", () => {
